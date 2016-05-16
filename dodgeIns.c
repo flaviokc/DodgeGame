@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <SDL.h>
+#include <SDL_mixer.h>
 
 //http://collabedit.com/5wsts
 
@@ -50,6 +51,14 @@ int main (int argc, char* args[]) {
         printf( "Failed to initialize!\n" );
     }
     else {
+        // carrega e toca a musica
+        Mix_Music* musica = NULL;
+        musica = Mix_LoadMUS("musica1.ogg");
+        if (musica == NULL) {
+            printf("Erro ao ler a musica, erro: %s", Mix_GetError());
+        }
+        Mix_PlayMusic(musica, -1);
+
         //coloquem cada modo dentro de uma função pra dps fazer o menu:
         historia();
     }
@@ -232,6 +241,10 @@ bool init() {
                 printf( "Renderer could not be set! SDL Error: %s\n", SDL_GetError() );
                 success = false;
             }
+            // inicia o mixer para sons
+            if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ) {
+                printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
+            }
         }
     }
     return success;
@@ -243,5 +256,7 @@ void quit() {
     SDL_DestroyWindow(gWindow);
     gWindow = NULL;
     gRenderer = NULL;
+    Mix_HaltMusic();
+    Mix_Quit();
     SDL_Quit();
 }
