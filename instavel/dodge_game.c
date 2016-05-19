@@ -10,11 +10,14 @@
 //modos:
 void historia(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT);
 
+//carrega e toca a musica:
+void play_Music(char path[]);
+
+
 //menu
 int main (int argc, char* args[]) {
-
     //dimensões da tela:
-    const int SCREEN_WIDTH = 700;
+    const int SCREEN_WIDTH = 1000;
     const int SCREEN_HEIGHT = 700;
 
     //Start up SDL and create window
@@ -22,13 +25,7 @@ int main (int argc, char* args[]) {
         printf( "Failed to initialize!\n" );
     }
     else {
-        // carrega e toca a musica: (colocar em uma função dentro do Main.c)
-        Mix_Music* musica = NULL;
-        musica = Mix_LoadMUS("./media/songs/musica1.ogg");
-        if (musica == NULL) {
-            printf("Erro ao ler a musica, erro: %s", Mix_GetError());
-        }
-        Mix_PlayMusic(musica, -1);
+        play_Music("./media/songs/musica1.ogg"); //carrega e toca a musica:
 
         //coloquem cada modo dentro de uma função pra dps fazer o menu:
         historia(&SCREEN_WIDTH, &SCREEN_HEIGHT);
@@ -42,3 +39,15 @@ int main (int argc, char* args[]) {
 void historia(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
     fase1(SCREEN_WIDTH, SCREEN_HEIGHT);
 }
+
+//carrega e toca a musica: (passar para o main)
+void play_Music(char path[]){
+    Mix_Music* musica = NULL;
+    musica = Mix_LoadMUS(path);
+    if (musica == NULL) {
+        printf("Erro ao ler a musica, erro: %s", Mix_GetError());
+    } else {
+        Mix_PlayMusic(musica, -1);
+    }
+}
+
