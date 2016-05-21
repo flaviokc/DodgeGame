@@ -10,10 +10,6 @@
 //modos:
 void historia(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT);
 
-//carrega e toca a musica:
-void play_Music(char path[]);
-
-
 //menu
 int main (int argc, char* args[]) {
     //dimensões da tela:
@@ -37,17 +33,5 @@ int main (int argc, char* args[]) {
 
 //menu do modo historia:
 void historia(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
-    fase1(SCREEN_WIDTH, SCREEN_HEIGHT);
+    faseExemplo(SCREEN_WIDTH, SCREEN_HEIGHT);
 }
-
-//carrega e toca a musica: (passar para o main)
-void play_Music(char path[]){
-    Mix_Music* musica = NULL;
-    musica = Mix_LoadMUS(path);
-    if (musica == NULL) {
-        printf("Erro ao ler a musica, erro: %s", Mix_GetError());
-    } else {
-        Mix_PlayMusic(musica, -1);
-    }
-}
-
