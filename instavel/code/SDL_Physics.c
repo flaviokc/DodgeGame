@@ -28,7 +28,20 @@ void collRectWall(SDL_Rect* rect, Var* varObj, const int* SCREEN_WIDTH, const in
 }
 
 //atualiza a velocidade de acordo com os comandos contidos na struct Ctrl e com a freqCtrl: (flavio)
-void doTheCtrl(Ctrl* ctrlObj, Var* varObj, Hand* handObj){
+void doTheCtrl1(Ctrl* ctrlObj, Var* varObj, Hand* handObj){
+    static int contFreqCtrl=0;
+    contFreqCtrl++;
+    if(contFreqCtrl == (handObj->fC)){
+        if(ctrlObj->left) varObj->vX -= handObj->hX;
+        if(ctrlObj->right) varObj->vX += handObj->hX;
+        if(ctrlObj->up) varObj->vY -= handObj->hY;
+        if(ctrlObj->down) varObj->vY += handObj->hY;
+        contFreqCtrl = 0;
+    }
+}
+
+//atualiza a velocidade de acordo com os comandos contidos na struct Ctrl e com a freqCtrl: (flavio)
+void doTheCtrl2(Ctrl* ctrlObj, Var* varObj, Hand* handObj){
     static int contFreqCtrl=0;
     contFreqCtrl++;
     if(contFreqCtrl == (handObj->fC)){
@@ -90,5 +103,49 @@ void ctrlObj(SDL_Event* event, Ctrl* ctrlObj){
                 ctrlObj->up = false;
             break;
         }
+    }
+}
+
+//verifica se duas circunferências se intersectam: (flavio)
+bool coll2Circles(SDL_Rect* rect1, SDL_Rect* rect2) {
+    int dX = (rect2->x + (rect2->w)/2 - (rect1->x + (rect1->w)/2));
+    int dY = (rect2->y + (rect2->h)/2 - (rect1->y + (rect1->h)/2));
+    int somaRaios = (rect1->w + rect2->w)/2;
+    if(dX*dX + dY*dY > somaRaios*somaRaios){
+        return false;
+    } else {
+        return true;
+    }
+}
+
+//verifica se o inimigo bateu na parede e inverte sua velocidade perpendicularmente: (flavio)
+void collEnemyWall(SDL_Rect* rect, Rota* rotaObj, Var* varObj){
+    int aux;
+    int a = rotaObj->x2 - rect->w;
+    int b = rotaObj->y2 - rect->h;
+    if((rect->x <= rotaObj->x1)&&(rect->y <= rotaObj->y1)) {
+        rect->x = rotaObj->x1;
+        rect->y = rotaObj->y1;
+        aux = varObj->vX;
+        varObj->vX = varObj->vY * (-1);
+        varObj->vY = aux * (-1);
+    } else if((rect->x >= a)&&(rect->y >= b)) {
+        rect->x = a;
+        rect->y = b;
+        aux = varObj->vX;
+        varObj->vX = varObj->vY * (-1);
+        varObj->vY = aux * (-1);
+    } else if((rect->x <= rotaObj->x1)&&(rect->y >= b)) {
+        rect->x = rotaObj->x1;
+        rect->y = b;
+        aux = varObj->vX;
+        varObj->vX = varObj->vY;
+        varObj->vY = aux;
+    } else if((rect->x >= a)&&(rect->y <= rotaObj->y1)) {
+        rect->x = a;
+        rect->y = rotaObj->y1;
+        aux = varObj->vX;
+        varObj->vX = varObj->vY;
+        varObj->vY = aux;
     }
 }

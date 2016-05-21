@@ -7,6 +7,6 @@
     //esse arquivo declara as fases do jogo.
 
     //fases:
-    void fase1(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT);
+    void faseExemplo(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT);
 
 #endif

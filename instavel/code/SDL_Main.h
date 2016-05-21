@@ -4,7 +4,7 @@
     #define SDL_MAIN_H
 
     #include <SDL.h>
-    #include <SDL_mixer.h>
+    //#include <SDL_mixer.h>
     #include "bool.h"
 
     extern SDL_Window* gWindow;
@@ -16,4 +16,6 @@
     void closeWindow(SDL_Event* event, bool* running);
     //close sdl
     void quit();
+    //carrega e toca a musica:
+    void play_Music(char path[]);
 #endif
