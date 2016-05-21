@@ -16,6 +16,8 @@
     void closeWindow(SDL_Event* event, bool* running);
     //close sdl
     void quit();
+    //gera a textura com o tempo recebido e corrige a posicao: (cesar)
+    SDL_Texture* criarTexture(int tempo, SDL_Color cor, SDL_Rect* rect, const int* SCREEN_WIDTH);
     //carrega e toca a musica:
     void play_Music(char path[]);
 #endif

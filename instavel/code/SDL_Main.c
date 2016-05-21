@@ -1,12 +1,16 @@
 #include <stdio.h>
 #include <SDL.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 #include "SDL_Main.h"
 #include "bool.h"
 
 //Janela e Render:
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
+
+//Fonte TTF para textos:
+TTF_Font* fonte = NULL;
 
 //initialize sdl:
 bool init(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT) {
@@ -42,9 +46,46 @@ bool init(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT) {
             if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ) {
                 printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
             }
+            // inicia o TTF para textos
+            if (TTF_Init() == -1) {
+                printf("Erro ao iniciar TTF, erro: %s", TTF_GetError());
+                success = false;
+            } else {
+                // carrega a fonte
+                fonte = TTF_OpenFont(/*caminho para uma fonte*/, 60);
+                if (fonte == NULL) {
+                    printf("erro ao carregar a fonte, erro: %s", TTF_GetError());
+                    success = false;
+                }
+            }
         }
     }
     return success;
+}
+
+//gera a textura com o tempo recebido e corrige a posicao: (cesar)
+SDL_Texture* criarTexture(int tempo, SDL_Color cor, SDL_Rect* rect, const int* SCREEN_WIDTH) {
+    char texto[2];
+    sprintf(texto, "%d", tempo);
+    // carrega uma surface com a cor e o texto
+    SDL_Surface* textSurface = TTF_RenderText_Solid(fonte, texto, cor);
+
+    if (textSurface == NULL) {
+        printf("erro ao criar texto, erro: %s", TTF_GetError());
+    } else {
+        // transforma a surface numa texture
+        SDL_Texture* textTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
+        // salva w e h
+        rect->w = textSurface->w;
+        rect->h = textSurface->h;
+        //calcula e salva x
+        rect->x = (*SCREEN_WIDTH - rect->w)/2;
+        // libera a surface
+        SDL_FreeSurface(textSurface);
+        // retorna
+        return textTexture;
+    }
+    return NULL;
 }
 
 //permite que o usuário fecha a janela clicando no X: (flavio)
@@ -56,11 +97,18 @@ void closeWindow(SDL_Event* event, bool* running){
 
 //close sdl:
 void quit() {
+    // encerra a fonte
+    TTF_CloseFont(fonte);
+    fonte = NULL;
+    // encerra window e renderer
     SDL_DestroyRenderer(gRenderer);
     SDL_DestroyWindow(gWindow);
     gWindow = NULL;
     gRenderer = NULL;
+    // para a musica
     Mix_HaltMusic();
+    // sai de todas bibliotecas
+    TTF_Quit();
     Mix_Quit();
     SDL_Quit();
 }
