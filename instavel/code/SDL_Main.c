@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include "SDL_Main.h"
@@ -62,4 +63,15 @@ void quit() {
     Mix_HaltMusic();
     Mix_Quit();
     SDL_Quit();
+}
+
+//carrega e toca a musica: (passar para o main)
+void play_Music(char path[]){
+    Mix_Music* musica = NULL;
+    musica = Mix_LoadMUS(path);
+    if (musica == NULL) {
+        printf("Erro ao ler a musica, erro: %s", Mix_GetError());
+    } else {
+        Mix_PlayMusic(musica, -1);
+    }
 }
