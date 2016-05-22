@@ -8,6 +8,71 @@
 #include "bool.h"
 
 //fases:
+
+void fasebug(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
+    //declarem td aqui em cima:
+    SDL_Event event;
+    SDL_Rect rect = {100, 100, 50, 50}; //retangulo azul
+
+    bool running = true; //mantem o laço principal rodando
+    Var varRect = {2,0,0,1,3}; //variação do retangulo azul (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
+    Hand handRect = {1,1,5}; //struct de controle do retangulo azul (handlingX, handlingY, freqCtrl); "handling == dirigibilidade"
+    Ctrl ctrlRect = {false, false, false, false}; //struct bool direçoes de controle
+    int tempo = 30; //duração da fase em segundos
+    int contador; //contador para o tempo
+    SDL_Rect tempoRect; //rect com posicao e tamanho da tempoTexture
+    SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
+    //-----------------------------------
+
+    // inicia o y do tempoRect que sera fixo
+    tempoRect.y = 200;
+    // registra o tempo atual no contador
+    contador = SDL_GetTicks();
+    // carrega a primeira textura do tempo
+    SDL_Texture* tempoTexture = criarTexture(tempo, tempoColor, &tempoRect, SCREEN_WIDTH);
+
+    while(tempo >= 0 && running){
+        //verifica os eventos:
+        while(SDL_PollEvent(&event)){
+            //fechar janela
+            closeWindow(&event, &running);
+            //pega os comandos para o objeto:
+            ctrlObj(&event, &ctrlRect);
+        }
+        //fundo verde:
+        SDL_SetRenderDrawColor(gRenderer, 0, 255, 0, 255);
+        SDL_RenderClear(gRenderer);
+
+        //tempo restante:
+        SDL_RenderCopy(gRenderer, tempoTexture, 0, &tempoRect);
+
+        //retangulo azul:
+        SDL_SetRenderDrawColor(gRenderer, 0, 0, 255, 255);
+        SDL_RenderFillRect(gRenderer, &rect);
+
+        //atualiza a tela:
+        SDL_RenderPresent(gRenderer);
+        //-------------------------------------------------------- aqui a tela é atualizada
+
+        //interacoes fisicas:
+        collRectWall(&rect, &varRect, SCREEN_WIDTH, SCREEN_HEIGHT);
+        acelObj(&varRect);
+        doTheCtrl1(&ctrlRect, &varRect, &handRect);
+        velObj(&rect.x, &rect.y, &varRect.vX, &(varRect.vY));
+
+        // verifica se passou um segundo desde o ultimo registro do tempo
+        if (SDL_GetTicks() - contador >= 1000) {
+            tempo--;
+            //SDL_DestroyTexture(tempoTexture);
+            tempoTexture = criarTexture(tempo, tempoColor, &tempoRect, SCREEN_WIDTH);
+            contador = SDL_GetTicks();
+        }
+
+        //delay pra controlar a velocidade de atualização da tela:
+        SDL_Delay(20);
+    }
+}
+
 void faseExemplo(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
     //declarem td aqui em cima:
     SDL_Event event;
