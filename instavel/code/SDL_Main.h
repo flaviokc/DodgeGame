@@ -18,6 +18,8 @@
     void quit();
     //gera a textura com o tempo recebido e corrige a posicao: (cesar)
     SDL_Texture* criarTexture(int tempo, SDL_Color cor, SDL_Rect* rect, const int* SCREEN_WIDTH);
+    //atualiza o tempo, destroi a tempoTexture, atualiza o contador e retorna uma texture com o tempo atualizado:
+    SDL_Texture* atualizaTempoMostrado(int* tempoRestante, SDL_Texture* tempoTexture, int* contador, SDL_Color *tempoColor, SDL_Rect *tempoRect, const int* SCREEN_WIDTH);
     //carrega e toca a musica:
     void play_Music(char path[]);
 #endif

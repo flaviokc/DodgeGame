@@ -52,7 +52,8 @@ bool init(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT) {
                 success = false;
             } else {
                 // carrega a fonte
-                fonte = TTF_OpenFont(/*caminho para uma fonte*/, 60);
+                // "./media/fonts/arial.ttf"
+                fonte = TTF_OpenFont("./media/fonts/arial.ttf", 60);
                 if (fonte == NULL) {
                     printf("erro ao carregar a fonte, erro: %s", TTF_GetError());
                     success = false;
@@ -122,4 +123,13 @@ void play_Music(char path[]){
     } else {
         Mix_PlayMusic(musica, -1);
     }
+}
+
+//atualiza o tempo, destroi a tempoTexture, atualiza o contador e retorna uma texture com o tempo atualizado:
+SDL_Texture* atualizaTempoMostrado(int* tempoRestante, SDL_Texture* tempoTexture, int* contador, SDL_Color *tempoColor, SDL_Rect *tempoRect, const int* SCREEN_WIDTH){
+    (*tempoRestante)--;
+    SDL_DestroyTexture(tempoTexture);
+    *contador = SDL_GetTicks();
+
+    return criarTexture(*tempoRestante, *tempoColor, tempoRect, SCREEN_WIDTH);
 }

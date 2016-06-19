@@ -7,7 +7,6 @@
 
 //detecta colisão entre retangulo e parede, e inverte valor da velocidade: (flavio)
 void collRectWall(SDL_Rect* rect, Var* varObj, const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
-
     if((rect->x)<0){
         varObj->vX *= (-1);
         rect->x = 0;
@@ -28,28 +27,12 @@ void collRectWall(SDL_Rect* rect, Var* varObj, const int* SCREEN_WIDTH, const in
 }
 
 //atualiza a velocidade de acordo com os comandos contidos na struct Ctrl e com a freqCtrl: (flavio)
-void doTheCtrl1(Ctrl* ctrlObj, Var* varObj, Hand* handObj){
-    static int contFreqCtrl=0;
-    contFreqCtrl++;
-    if(contFreqCtrl == (handObj->fC)){
+void doTheCtrl(Ctrl* ctrlObj, Var* varObj, Hand* handObj, int contWhile){
+    if(!(contWhile % handObj->fC)){
         if(ctrlObj->left) varObj->vX -= handObj->hX;
         if(ctrlObj->right) varObj->vX += handObj->hX;
         if(ctrlObj->up) varObj->vY -= handObj->hY;
         if(ctrlObj->down) varObj->vY += handObj->hY;
-        contFreqCtrl = 0;
-    }
-}
-
-//atualiza a velocidade de acordo com os comandos contidos na struct Ctrl e com a freqCtrl: (flavio)
-void doTheCtrl2(Ctrl* ctrlObj, Var* varObj, Hand* handObj){
-    static int contFreqCtrl=0;
-    contFreqCtrl++;
-    if(contFreqCtrl == (handObj->fC)){
-        if(ctrlObj->left) varObj->vX -= handObj->hX;
-        if(ctrlObj->right) varObj->vX += handObj->hX;
-        if(ctrlObj->up) varObj->vY -= handObj->hY;
-        if(ctrlObj->down) varObj->vY += handObj->hY;
-        contFreqCtrl = 0;
     }
 }
 
@@ -60,13 +43,10 @@ void velObj(int *pX, int *pY, int *vX, int *vY){
 }
 
 //atualiza a velocidade do personagem de acordo com a aceleração e com a freqAcel: (flavio)
-void acelObj(Var* varObj){
-    static int contFreqAcel=0;
-    contFreqAcel++;
-    if(contFreqAcel == (varObj->fA)){
+void acelObj(Var* varObj, int contWhile){
+    if(!(contWhile % varObj->fA)){
         varObj->vX += varObj->aX;
         varObj->vY += varObj->aY;
-        contFreqAcel = 0;
     }
 }
 
@@ -121,31 +101,140 @@ bool coll2Circles(SDL_Rect* rect1, SDL_Rect* rect2) {
 //verifica se o inimigo bateu na parede e inverte sua velocidade perpendicularmente: (flavio)
 void collEnemyWall(SDL_Rect* rect, Rota* rotaObj, Var* varObj){
     int aux;
-    int a = rotaObj->x2 - rect->w;
-    int b = rotaObj->y2 - rect->h;
+    //verifica se bateu no canto superior esquerdo:
     if((rect->x <= rotaObj->x1)&&(rect->y <= rotaObj->y1)) {
+        //reposiciona o rect:
         rect->x = rotaObj->x1;
         rect->y = rotaObj->y1;
         aux = varObj->vX;
+        //transforma perpendicularmente a velocidade:
         varObj->vX = varObj->vY * (-1);
         varObj->vY = aux * (-1);
-    } else if((rect->x >= a)&&(rect->y >= b)) {
-        rect->x = a;
-        rect->y = b;
+    } else if((rect->x >= rotaObj->x2)&&(rect->y >= rotaObj->y2)) { //verifica se bateu no canto inferior direito:
+        //reposiciona o rect:
+        rect->x = rotaObj->x2;
+        rect->y = rotaObj->y2;
         aux = varObj->vX;
+        //transforma perpendicularmente a velocidade:
         varObj->vX = varObj->vY * (-1);
         varObj->vY = aux * (-1);
-    } else if((rect->x <= rotaObj->x1)&&(rect->y >= b)) {
+    } else if((rect->x <= rotaObj->x1)&&(rect->y >= rotaObj->y2)) { //verifica se bateu no canto inferior esquerdo:
+        //reposiciona o rect:
         rect->x = rotaObj->x1;
-        rect->y = b;
+        rect->y = rotaObj->y2;
         aux = varObj->vX;
+        //transforma perpendicularmente a velocidade:
         varObj->vX = varObj->vY;
         varObj->vY = aux;
-    } else if((rect->x >= a)&&(rect->y <= rotaObj->y1)) {
-        rect->x = a;
+    } else if((rect->x >= rotaObj->x2)&&(rect->y <= rotaObj->y1)) { //verifica se bateu no canto superior direito:
+        //reposiciona o rect:
+        rect->x = rotaObj->x2;
         rect->y = rotaObj->y1;
         aux = varObj->vX;
+        //transforma perpendicularmente a velocidade:
         varObj->vX = varObj->vY;
         varObj->vY = aux;
+    }
+}
+
+//atualiza o contWhile
+void atualizaContWhile(int* contWhile, int mmcMaisUm){
+    if(*contWhile >= mmcMaisUm){ //compara com o (MMC(todos os freqAcel e freqCtrl) + 1)
+        *contWhile = 1;
+    }
+    (*contWhile)++;
+}
+
+/*altera aleatoriamente ou não a aceleracao do objeto de acordo com o parametro:
+parametro -->{0,1,2,3,4}
+resultado -->{aleatorio, esquerda, direita, cima, baixo}
+retorna o numero referente a direcao em que mudou seguindo o padrao acima.
+retorna 0 se não mudou a direcao.
+(Essa funcao sempre altera o modulo da aceleracao para 1) */
+int alteraGravidade(Var* varObj, int tempoRestante, int freqMudGrav, int parametro){
+    int aleatorio;
+    if(!(tempoRestante % freqMudGrav)){ //verifica se é pra mudar a gravidade
+        if(!parametro){ //verifica se eh pra mudar aleatoriamente a gravidade
+            aleatorio = (rand()%4)+1; //gera um numero aleatorio entre 1 e 4
+            //altera a aceleração de acordo com o numero aleatorio seguindo o padrao especificado acima.
+            //caso o numero aleatorio ja corresponda a direcao atual, escolhe-se a direcao do aleatorio+1
+            switch(aleatorio){
+                //esquerda:
+                case 1:
+                    if(varObj->aX == -1){
+                        varObj->aX = 1;
+                        varObj->aY = 0;
+                        aleatorio = 2;
+                    } else{
+                        varObj->aX = -1;
+                        varObj->aY = 0;
+                    }
+                break;
+                //direita:
+                case 2:
+                    if(varObj->aX == 1){
+                        varObj->aY = -1;
+                        varObj->aX = 0;
+                        aleatorio = 3;
+                    } else{
+                        varObj->aX = 1;
+                        varObj->aY = 0;
+                    }
+                break;
+                //cima:
+                case 3:
+                    if(varObj->aY == -1){
+                        varObj->aY = 1;
+                        varObj->aX = 0;
+                        aleatorio = 4;
+                    } else{
+                        varObj->aY = -1;
+                        varObj->aX = 0;
+                    }
+                break;
+                //baixo:
+                case 4:
+                    if(varObj->aY == 1){
+                        varObj->aX = -1;
+                        varObj->aY = 0;
+                        aleatorio = 1;
+                    } else{
+                        varObj->aY = 1;
+                        varObj->aX = 0;
+                    }
+                break;
+            }
+            //retorna a nova direcao
+            return aleatorio;
+        } else{
+            //altera a aceleração de acordo com o numero aleatorio seguindo o padrao especificado acima.
+            switch(parametro){
+                //esquerda:
+                case 1:
+                    varObj->aX = -1;
+                    varObj->aY = 0;
+                break;
+                //direita:
+                case 2:
+                    varObj->aX = 1;
+                    varObj->aY = 0;
+                break;
+                //cima:
+                case 3:
+                    varObj->aY = -1;
+                    varObj->aX = 0;
+                break;
+                //baixo:
+                case 4:
+                    varObj->aY = 1;
+                    varObj->aX = 0;
+                break;
+            }
+            //retorna a nova direcao
+            return parametro;
+        }
+    } else{
+        //a direcao nao foi alterada
+        return 0;
     }
 }
