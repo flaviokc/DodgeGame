@@ -33,5 +33,8 @@ int main (int argc, char* args[]) {
 
 //menu do modo historia:
 void historia(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
-    faseExemplo(SCREEN_WIDTH, SCREEN_HEIGHT);
+    //fasebug(SCREEN_WIDTH, SCREEN_HEIGHT);
+    //faseExemplo(SCREEN_WIDTH, SCREEN_HEIGHT);
+    //faseTutorial3(SCREEN_WIDTH, SCREEN_HEIGHT);
+    faseTematica1(SCREEN_WIDTH, SCREEN_HEIGHT);
 }
