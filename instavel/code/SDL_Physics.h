@@ -28,7 +28,7 @@
     } Rota;
 
     //detecta colisão entre retangulo e parede, e inverte valor da velocidade: (flavio)
-    void collRectWall(SDL_Rect* rect, Var* varObj, const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT);
+    void collRectWall(SDL_Rect* rect, Var* varObj);
     //atualiza a posição do objeto de acordo com a velocidade: (flavio)
     void velObj(int *pX, int *pY, int *vX, int *vY);
     //atualiza a velocidade do personagem de acordo com a aceleração e com a freqAcel: (flavio)

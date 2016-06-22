@@ -7,14 +7,14 @@
     //esse arquivo declara as fases do jogo.
 
     //fases:
-    void faseExemplo(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT);
-    void fasebug(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT);
+    void faseExemplo();
+    void fasebug();
 
     //Tutorial:
-    void faseTutorial1(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT);
-    void faseTutorial2(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT);
-    void faseTutorial3(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT);
+    void faseTutorial1();
+    void faseTutorial2();
+    void faseTutorial3();
     //Tematicas:
-    void faseTematica1(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT);
+    void faseTematica1();
 
 #endif

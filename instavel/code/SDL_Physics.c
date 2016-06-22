@@ -1,28 +1,29 @@
 #include <stdio.h>
 #include <SDL.h>
 #include "SDL_Physics.h"
+#include "SDL_main.h"
 #include "bool.h"
 
 //esse arquivo contem as funcoes declaradas em "physics.h"
 
 //detecta colisão entre retangulo e parede, e inverte valor da velocidade: (flavio)
-void collRectWall(SDL_Rect* rect, Var* varObj, const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
+void collRectWall(SDL_Rect* rect, Var* varObj){
     if((rect->x)<0){
         varObj->vX *= (-1);
         rect->x = 0;
     }
-    else if((rect->x)+(rect->w) > *SCREEN_WIDTH){
+    else if((rect->x)+(rect->w) > SCREEN_WIDTH){
         varObj->vX *= (-1);
-        rect->x = *SCREEN_WIDTH - (rect->w);
+        rect->x = SCREEN_WIDTH - (rect->w);
     }
 
     if((rect->y)<0){
         varObj->vY *= (-1);
         rect->y = 0;
     }
-    else if((rect->y)+(rect->h) > *SCREEN_HEIGHT){
+    else if((rect->y)+(rect->h) > SCREEN_HEIGHT){
         varObj->vY *= (-1);
-        rect->y = *SCREEN_HEIGHT - (rect->h);
+        rect->y = SCREEN_HEIGHT - (rect->h);
     }
 }
 

@@ -2,13 +2,14 @@
 
 #include <stdio.h>
 #include <SDL.h>
+#include <stdlib.h>
 #include "SDL_Main.h"
 #include "SDL_Fases.h"
 #include "SDL_Physics.h"
 #include "bool.h"
 
 //fases:
-void fasebug(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
+void fasebug(){
 
     //declarem td aqui em cima:
     SDL_Event event;
@@ -22,7 +23,7 @@ void fasebug(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
     // carrega a primeira textura do tempo
-    SDL_Texture* tempoTexture = criarTexture(tempoRestante, tempoColor, &tempoRect, SCREEN_WIDTH);
+    SDL_Texture* tempoTexture = criarTexture(tempoRestante, tempoColor, &tempoRect);
     //-----------------------------------
 
 
@@ -63,7 +64,7 @@ void fasebug(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
         //INTERACOES FISICAS:
 
         //personagem:
-        collRectWall(&rect, &varRect, SCREEN_WIDTH, SCREEN_HEIGHT);
+        collRectWall(&rect, &varRect);
         acelObj(&varRect, contWhile);
         doTheCtrl(&ctrlRect, &varRect, &handRect, contWhile);
         velObj(&rect.x, &rect.y, &varRect.vX, &(varRect.vY));
@@ -73,7 +74,7 @@ void fasebug(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
         //verifica se passou um segundo desde o ultimo registro do tempo:
         if (SDL_GetTicks() - contador >= 1000) {
             //atualiza o tempo, destroi a tempoTexture, atualiza o contador e retorna uma texture com o tempo atualizado:
-            tempoTexture = atualizaTempoMostrado(&tempoRestante, tempoTexture, &contador, &tempoColor, &tempoRect, SCREEN_WIDTH);
+            tempoTexture = atualizaTempoMostrado(&tempoRestante, tempoTexture, &contador, &tempoColor, &tempoRect);
         }
 
         //atualiza o contWhile
@@ -84,7 +85,7 @@ void fasebug(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
     }
 }
 
-void faseExemplo(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
+void faseExemplo(){
     SDL_Event event;
     bool running = true; //mantem o laço principal rodando
     int contWhile = 1; //sempre contWhile = 1;
@@ -96,7 +97,7 @@ void faseExemplo(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
     // carrega a primeira textura do tempo
-    SDL_Texture* tempoTexture = criarTexture(tempoRestante, tempoColor, &tempoRect, SCREEN_WIDTH);
+    SDL_Texture* tempoTexture = criarTexture(tempoRestante, tempoColor, &tempoRect);
     //-------------------------
 
     //OBJETOS:
@@ -111,13 +112,13 @@ void faseExemplo(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
     //enemy1: //rotador
     SDL_Rect inimigo1 = {0, 0, 80, 80};
     Var varInimigo1 = {0,7,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
-    Rota rotaInimigo1 = {0, 0, *SCREEN_WIDTH - inimigo1.w, *SCREEN_HEIGHT - inimigo1.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
+    Rota rotaInimigo1 = {0, 0, SCREEN_WIDTH - inimigo1.w, SCREEN_HEIGHT - inimigo1.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
     //-----------------------------------
 
     //enemy2: //rotador
-    SDL_Rect inimigo2 = {*SCREEN_WIDTH - 80, *SCREEN_HEIGHT - 80, 80, 80};
+    SDL_Rect inimigo2 = {SCREEN_WIDTH - 80, SCREEN_HEIGHT - 80, 80, 80};
     Var varInimigo2 = {0,-7,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
-    Rota rotaInimigo2 = {0, 0, *SCREEN_WIDTH - inimigo2.w, *SCREEN_HEIGHT - inimigo2.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
+    Rota rotaInimigo2 = {0, 0, SCREEN_WIDTH - inimigo2.w, SCREEN_HEIGHT - inimigo2.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
     //-----------------------------------
 
     //enemy3: //quicador
@@ -173,7 +174,7 @@ void faseExemplo(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
 
         //INTERACOES FISICAS
         //personagem:
-        collRectWall(&personagem, &varPersonagem, SCREEN_WIDTH, SCREEN_HEIGHT);
+        collRectWall(&personagem, &varPersonagem);
         doTheCtrl(&ctrlPersonagem, &varPersonagem, &handPersonagem, contWhile);
         acelObj(&varPersonagem, contWhile);
         velObj(&personagem.x, &personagem.y, &varPersonagem.vX, &varPersonagem.vY);
@@ -187,7 +188,7 @@ void faseExemplo(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
         velObj(&inimigo2.x, &inimigo2.y, &varInimigo2.vX, &varInimigo2.vY);
 
         //inimigo3:
-        collRectWall(&inimigo3, &varInimigo3, SCREEN_WIDTH, SCREEN_HEIGHT);
+        collRectWall(&inimigo3, &varInimigo3);
         acelObj(&varInimigo3, contWhile);
         velObj(&inimigo3.x, &inimigo3.y, &varInimigo3.vX, &varInimigo3.vY);
         //-----------------------
@@ -195,7 +196,7 @@ void faseExemplo(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
         //verifica se passou um segundo desde o ultimo registro do tempo:
         if (SDL_GetTicks() - contador >= 1000) {
             //atualiza o tempo, destroi a tempoTexture, atualiza o contador e retorna uma texture com o tempo atualizado:
-            tempoTexture = atualizaTempoMostrado(&tempoRestante, tempoTexture, &contador, &tempoColor, &tempoRect, SCREEN_WIDTH);
+            tempoTexture = atualizaTempoMostrado(&tempoRestante, tempoTexture, &contador, &tempoColor, &tempoRect);
         }
 
         //atualiza o contWhile
@@ -206,7 +207,7 @@ void faseExemplo(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
     //-----------------
 }
 
-void faseTutorial1(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
+void faseTutorial1(){
     //declarem td aqui em cima:
     SDL_Event event;
     bool running = true; //mantem o laço principal rodando
@@ -219,7 +220,7 @@ void faseTutorial1(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
     // carrega a primeira textura do tempo
-    SDL_Texture* tempoTexture = criarTexture(tempoRestante, tempoColor, &tempoRect, SCREEN_WIDTH);
+    SDL_Texture* tempoTexture = criarTexture(tempoRestante, tempoColor, &tempoRect);
     //-------------------------
 
     //OBJETOS:
@@ -276,13 +277,13 @@ void faseTutorial1(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
         }
 
         //personagem:
-        collRectWall(&personagem, &varPersonagem, SCREEN_WIDTH, SCREEN_HEIGHT);
+        collRectWall(&personagem, &varPersonagem);
         doTheCtrl(&ctrlPersonagem, &varPersonagem, &handPersonagem, contWhile);
         acelObj(&varPersonagem, contWhile);
         velObj(&personagem.x, &personagem.y, &varPersonagem.vX, &varPersonagem.vY);
 
         //inimigo1:
-        collRectWall(&inimigo1, &varInimigo1, SCREEN_WIDTH, SCREEN_HEIGHT);
+        collRectWall(&inimigo1, &varInimigo1);
         velObj(&inimigo1.x, &inimigo1.y, &varInimigo1.vX, &varInimigo1.vY);
         acelObj(&varInimigo1, contWhile);
         //-----------------------
@@ -290,7 +291,7 @@ void faseTutorial1(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
         //verifica se passou um segundo desde o ultimo registro do tempo:
         if (SDL_GetTicks() - contador >= 1000) {
             //atualiza o tempo, destroi a tempoTexture, atualiza o contador e retorna uma texture com o tempo atualizado:
-            tempoTexture = atualizaTempoMostrado(&tempoRestante, tempoTexture, &contador, &tempoColor, &tempoRect, SCREEN_WIDTH);
+            tempoTexture = atualizaTempoMostrado(&tempoRestante, tempoTexture, &contador, &tempoColor, &tempoRect);
         }
 
         //atualiza o contWhile
@@ -301,7 +302,7 @@ void faseTutorial1(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
     //-----------------
 }
 
-void faseTutorial2(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
+void faseTutorial2(){
     //declarem td aqui em cima:
     SDL_Event event;
     bool running = true; //mantem o laço principal rodando
@@ -314,7 +315,7 @@ void faseTutorial2(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
     // carrega a primeira textura do tempo
-    SDL_Texture* tempoTexture = criarTexture(tempoRestante, tempoColor, &tempoRect, SCREEN_WIDTH);
+    SDL_Texture* tempoTexture = criarTexture(tempoRestante, tempoColor, &tempoRect);
     //-------------------------
 
     //OBJETOS:
@@ -328,7 +329,7 @@ void faseTutorial2(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
     //enemy1:
     SDL_Rect inimigo1 = {0, 0, 80, 80}; //personagem
     Var varInimigo1 = {0,7,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
-    Rota rotaInimigo1 = {0, 0, *SCREEN_WIDTH - inimigo1.w, *SCREEN_HEIGHT - inimigo1.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
+    Rota rotaInimigo1 = {0, 0, SCREEN_WIDTH - inimigo1.w, SCREEN_HEIGHT - inimigo1.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
     //-----------------------------------
 
     while(tempoRestante >= 0 && running){
@@ -371,7 +372,7 @@ void faseTutorial2(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
         }
 
         //personagem:
-        collRectWall(&personagem, &varPersonagem, SCREEN_WIDTH, SCREEN_HEIGHT);
+        collRectWall(&personagem, &varPersonagem);
         doTheCtrl(&ctrlPersonagem, &varPersonagem, &handPersonagem, contWhile);
         acelObj(&varPersonagem, contWhile);
         velObj(&personagem.x, &personagem.y, &varPersonagem.vX, &varPersonagem.vY);
@@ -383,7 +384,7 @@ void faseTutorial2(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
         //verifica se passou um segundo desde o ultimo registro do tempo:
         if (SDL_GetTicks() - contador >= 1000) {
             //atualiza o tempo, destroi a tempoTexture, atualiza o contador e retorna uma texture com o tempo atualizado:
-            tempoTexture = atualizaTempoMostrado(&tempoRestante, tempoTexture, &contador, &tempoColor, &tempoRect, SCREEN_WIDTH);
+            tempoTexture = atualizaTempoMostrado(&tempoRestante, tempoTexture, &contador, &tempoColor, &tempoRect);
             //altera a gravidade aleatoriamente a cada 7 segundos:
             alteraGravidade(&varPersonagem, tempoRestante, 7, 0);
         }
@@ -396,9 +397,9 @@ void faseTutorial2(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
     //-----------------
 }
 
-void faseTutorial3(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
+void faseTutorial3(){
     //declarem td aqui em cima:
-    SDL_Event event;
+    SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
     bool running = true; //mantem o laço principal rodando
     int contWhile = 1; //sempre contWhile = 1;
     int tantoFaz = 0; //use para parametros q tanto fazem
@@ -409,7 +410,7 @@ void faseTutorial3(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
     // carrega a primeira textura do tempo
-    SDL_Texture* tempoTexture = criarTexture(tempoRestante, tempoColor, &tempoRect, SCREEN_WIDTH);
+    SDL_Texture* tempoTexture = criarTexture(tempoRestante, tempoColor, &tempoRect);
     //-------------------------
 
     //OBJETOS:
@@ -424,13 +425,13 @@ void faseTutorial3(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
     //enemy1:
     SDL_Rect inimigo1 = {0, 0, 80, 80}; //personagem
     Var varInimigo1 = {0,7,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
-    Rota rotaInimigo1 = {0, 0, *SCREEN_WIDTH - inimigo1.w, *SCREEN_HEIGHT - inimigo1.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
+    Rota rotaInimigo1 = {0, 0, SCREEN_WIDTH - inimigo1.w, SCREEN_HEIGHT - inimigo1.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
     //-----------------------------------
 
     //enemy2:
-    SDL_Rect inimigo2 = {*SCREEN_WIDTH - 80, *SCREEN_HEIGHT - 80, 80, 80}; //personagem
+    SDL_Rect inimigo2 = {SCREEN_WIDTH - 80, SCREEN_HEIGHT - 80, 80, 80}; //personagem
     Var varInimigo2 = {0,-7,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
-    Rota rotaInimigo2 = {0, 0, *SCREEN_WIDTH - inimigo2.w, *SCREEN_HEIGHT - inimigo2.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
+    Rota rotaInimigo2 = {0, 0, SCREEN_WIDTH - inimigo2.w, SCREEN_HEIGHT - inimigo2.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
     //-----------------------------------
 
     //enemy3:
@@ -440,11 +441,11 @@ void faseTutorial3(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
 
     while(tempoRestante >= 0 && running){
         //verifica os eventos:
-        while(SDL_PollEvent(&event)){
+        while(SDL_PollEvent(event)){
             //fechar janela
-            closeWindow(&event, &running);
+            closeWindow(event, &running);
             //pega os comandos para o personagem:
-            ctrlObj(&event, &ctrlPersonagem);
+            ctrlObj(event, &ctrlPersonagem);
         }
 
         //fundo verde:
@@ -486,7 +487,7 @@ void faseTutorial3(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
         }
 
         //personagem:
-        collRectWall(&personagem, &varPersonagem, SCREEN_WIDTH, SCREEN_HEIGHT);
+        collRectWall(&personagem, &varPersonagem);
         doTheCtrl(&ctrlPersonagem, &varPersonagem, &handPersonagem, contWhile);
         acelObj(&varPersonagem, contWhile);
         velObj(&personagem.x, &personagem.y, &varPersonagem.vX, &varPersonagem.vY);
@@ -500,14 +501,14 @@ void faseTutorial3(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
         velObj(&inimigo2.x, &inimigo2.y, &varInimigo2.vX, &varInimigo2.vY);
 
         //inimigo3:
-        collRectWall(&inimigo3, &varInimigo3, SCREEN_WIDTH, SCREEN_HEIGHT);
+        collRectWall(&inimigo3, &varInimigo3);
         velObj(&inimigo3.x, &inimigo3.y, &varInimigo3.vX, &varInimigo3.vY);
         //-----------------------
 
         //verifica se passou um segundo desde o ultimo registro do tempo:
         if (SDL_GetTicks() - contador >= 1000) {
             //atualiza o tempo, destroi a tempoTexture, atualiza o contador e retorna uma texture com o tempo atualizado:
-            tempoTexture = atualizaTempoMostrado(&tempoRestante, tempoTexture, &contador, &tempoColor, &tempoRect, SCREEN_WIDTH);
+            tempoTexture = atualizaTempoMostrado(&tempoRestante, tempoTexture, &contador, &tempoColor, &tempoRect);
         }
 
         //atualiza o contWhile
@@ -519,12 +520,17 @@ void faseTutorial3(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
 }
 
 //quando a fase receber o tema pode trocar o nome da funcao.
-void faseTematica1(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
+void faseTematica1(){
     //declarem td aqui em cima:
-    SDL_Event event;
+    SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
     bool running = true; //mantem o laço principal rodando
     int contWhile = 1; //sempre contWhile = 1;
     int tantoFaz = 0; //use para parametros q tanto fazem
+
+    //TEXTURAS
+    SDL_Texture* fundoTexture = carregarImagem(gRenderer, "./media/backgrounds/pokemon_comp.jpg");
+    SDL_Texture* personagemTexture = carregarImagem(gRenderer, "./media/skins/pikachu.png");
+    SDL_Texture* inimigoTexture = carregarImagem(gRenderer, "./media/skins/pokebola.png");
 
     //TEMPO
     int tempoRestante = 20; //duração da fase em segundos
@@ -532,13 +538,13 @@ void faseTematica1(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
     // carrega a primeira textura do tempo
-    SDL_Texture* tempoTexture = criarTexture(tempoRestante, tempoColor, &tempoRect, SCREEN_WIDTH);
+    SDL_Texture* tempoTexture = criarTexture(tempoRestante, tempoColor, &tempoRect);
     //-------------------------
 
     //OBJETOS:
 
     //personagem:
-    SDL_Rect personagem = {500, 550, 60, 60}; //personagem
+    SDL_Rect personagem = {460, 500, 85, 85}; //personagem
     Var varPersonagem = {0,0,0,1,3}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
     Hand handPersonagem = {1,1,5}; //struct de controle do objeto (handlingX, handlingY, freqCtrl); "handling == dirigibilidade"
     Ctrl ctrlPersonagem = {false, false, false, false}; //struct bool direçoes de controle
@@ -547,25 +553,25 @@ void faseTematica1(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
     //enemy1: rotador
     SDL_Rect inimigo1 = {0, 0, 80, 80}; //personagem
     Var varInimigo1 = {7,0,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
-    Rota rotaInimigo1 = {0, 0, *SCREEN_WIDTH - inimigo1.w, *SCREEN_HEIGHT - inimigo1.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
+    Rota rotaInimigo1 = {0, 0, SCREEN_WIDTH - inimigo1.w, SCREEN_HEIGHT - inimigo1.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
     //-----------------------------------
 
     //enemy2: rotador
-    SDL_Rect inimigo2 = {*SCREEN_WIDTH - 80, 0, 80, 80}; //personagem
+    SDL_Rect inimigo2 = {SCREEN_WIDTH - 80, 0, 80, 80}; //personagem
     Var varInimigo2 = {-7,0,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
-    Rota rotaInimigo2 = {0, 0, *SCREEN_WIDTH - inimigo2.w, *SCREEN_HEIGHT - inimigo2.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
+    Rota rotaInimigo2 = {0, 0, SCREEN_WIDTH - inimigo2.w, SCREEN_HEIGHT - inimigo2.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
     //-----------------------------------
 
     //enemy3: rotador
-    SDL_Rect inimigo3 = {0, *SCREEN_HEIGHT - 80, 80, 80}; //personagem
+    SDL_Rect inimigo3 = {0, SCREEN_HEIGHT - 80, 80, 80}; //personagem
     Var varInimigo3 = {7,0,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
-    Rota rotaInimigo3 = {0, 0, *SCREEN_WIDTH - inimigo3.w, *SCREEN_HEIGHT - inimigo3.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
+    Rota rotaInimigo3 = {0, 0, SCREEN_WIDTH - inimigo3.w, SCREEN_HEIGHT - inimigo3.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
     //-----------------------------------
 
     //enemy4: rotador
-    SDL_Rect inimigo4 = {*SCREEN_WIDTH - 80, *SCREEN_HEIGHT - 80, 80, 80}; //personagem
+    SDL_Rect inimigo4 = {SCREEN_WIDTH - 80, SCREEN_HEIGHT - 80, 80, 80}; //personagem
     Var varInimigo4 = {-7,0,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
-    Rota rotaInimigo4 = {0, 0, *SCREEN_WIDTH - inimigo4.w, *SCREEN_HEIGHT - inimigo4.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
+    Rota rotaInimigo4 = {0, 0, SCREEN_WIDTH - inimigo4.w, SCREEN_HEIGHT - inimigo4.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
     //-----------------------------------
 
     //enemy5: flutuante
@@ -575,46 +581,37 @@ void faseTematica1(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
 
     while(tempoRestante >= 0 && running){
         //verifica os eventos:
-        while(SDL_PollEvent(&event)){
+        while(SDL_PollEvent(event)){
             //fechar janela
-            closeWindow(&event, &running);
+            closeWindow(event, &running);
             //pega os comandos para o personagem:
-            ctrlObj(&event, &ctrlPersonagem);
+            ctrlObj(event, &ctrlPersonagem);
         }
 
-        //fundo verde:
-        SDL_SetRenderDrawColor(gRenderer, 0, 255, 0, 255);
-
-        //pinta o fundo
-        SDL_RenderClear(gRenderer);
+        // imprime o fundo:
+        SDL_RenderCopy(gRenderer, fundoTexture, NULL, NULL);
 
         //tempo restante:
         SDL_RenderCopy(gRenderer, tempoTexture, 0, &tempoRect);
 
         //OBJETOS:
         //print personagem:
-        SDL_SetRenderDrawColor(gRenderer, 0, 0, 255, 255);
-        SDL_RenderFillRect(gRenderer, &personagem);
+        SDL_RenderCopy(gRenderer, personagemTexture, 0, &personagem);
 
         //print inimigo1:
-        SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
-        SDL_RenderFillRect(gRenderer, &inimigo1);
+        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo1);
 
         //print inimigo2:
-        SDL_SetRenderDrawColor(gRenderer, 0, 255, 255, 255);
-        SDL_RenderFillRect(gRenderer, &inimigo2);
+        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo2);
 
         //print inimigo3:
-        SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
-        SDL_RenderFillRect(gRenderer, &inimigo3);
+        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo3);
 
         //print inimigo4:
-        SDL_SetRenderDrawColor(gRenderer, 255, 255, 0, 255);
-        SDL_RenderFillRect(gRenderer, &inimigo4);
+        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo4);
 
         //print inimigo5:
-        SDL_SetRenderDrawColor(gRenderer, 255, 0, 255, 255);
-        SDL_RenderFillRect(gRenderer, &inimigo5);
+        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo5);
         //-------------------
 
         //atualiza a tela:
@@ -629,7 +626,7 @@ void faseTematica1(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
         }
 
         //personagem:
-        collRectWall(&personagem, &varPersonagem, SCREEN_WIDTH, SCREEN_HEIGHT);
+        collRectWall(&personagem, &varPersonagem);
         doTheCtrl(&ctrlPersonagem, &varPersonagem, &handPersonagem, contWhile);
         acelObj(&varPersonagem, contWhile);
         velObj(&personagem.x, &personagem.y, &varPersonagem.vX, &varPersonagem.vY);
@@ -651,7 +648,7 @@ void faseTematica1(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
         velObj(&inimigo4.x, &inimigo4.y, &varInimigo4.vX, &varInimigo4.vY);
 
         //inimigo5:
-        collRectWall(&inimigo5, &varInimigo5, SCREEN_WIDTH, SCREEN_HEIGHT);
+        collRectWall(&inimigo5, &varInimigo5);
         velObj(&inimigo5.x, &inimigo5.y, &varInimigo5.vX, &varInimigo5.vY);
 
         //-----------------------
@@ -659,7 +656,7 @@ void faseTematica1(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
         //verifica se passou um segundo desde o ultimo registro do tempo:
         if (SDL_GetTicks() - contador >= 1000) {
             //atualiza o tempo, destroi a tempoTexture, atualiza o contador e retorna uma texture com o tempo atualizado:
-            tempoTexture = atualizaTempoMostrado(&tempoRestante, tempoTexture, &contador, &tempoColor, &tempoRect, SCREEN_WIDTH);
+            tempoTexture = atualizaTempoMostrado(&tempoRestante, tempoTexture, &contador, &tempoColor, &tempoRect);
         }
 
         //atualiza o contWhile
@@ -667,6 +664,10 @@ void faseTematica1(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT){
         //delay pra controlar a velocidade de atualização da tela:
         SDL_Delay(20);
     }
+    SDL_DestroyTexture(tempoTexture);
+    SDL_DestroyTexture(fundoTexture);
+    SDL_DestroyTexture(inimigoTexture);
+    SDL_DestroyTexture(personagemTexture);
     //-----------------
 }
 

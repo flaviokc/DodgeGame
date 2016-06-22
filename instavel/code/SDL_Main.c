@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
+#include<SDL_image.h>
 #include "SDL_Main.h"
 #include "bool.h"
 
@@ -13,7 +14,7 @@ SDL_Renderer* gRenderer = NULL;
 TTF_Font* fonte = NULL;
 
 //initialize sdl:
-bool init(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT) {
+bool init() {
     //Initialization flag
     bool success = true;
 
@@ -27,8 +28,8 @@ bool init(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT) {
         gWindow = SDL_CreateWindow( "Dodge Game",
                                     SDL_WINDOWPOS_UNDEFINED,
                                     SDL_WINDOWPOS_UNDEFINED,
-                                    *SCREEN_WIDTH,
-                                    *SCREEN_HEIGHT,
+                                    SCREEN_WIDTH,
+                                    SCREEN_HEIGHT,
                                     SDL_WINDOW_RESIZABLE);
 
         if( gWindow == NULL ) {
@@ -58,38 +59,46 @@ bool init(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT) {
                     printf("erro ao carregar a fonte, erro: %s", TTF_GetError());
                     success = false;
                 }
+                // inicia sdl image
+                int flag = IMG_INIT_PNG | IMG_INIT_JPG;
+                if (!( IMG_Init(flag) & flag )) {
+                    printf( "Erro ao iniciar sdl_image! Erro: %s\n", IMG_GetError() );
+                    success = false;
+                }
             }
         }
     }
     return success;
 }
 
-//gera a textura com o tempo recebido e corrige a posicao: (cesar)
-SDL_Texture* criarTexture(int tempo, SDL_Color cor, SDL_Rect* rect, const int* SCREEN_WIDTH) {
-    char texto[2];
-    sprintf(texto, "%d", tempo);
-    // carrega uma surface com a cor e o texto
-    SDL_Surface* textSurface = TTF_RenderText_Solid(fonte, texto, cor);
+// carrega uma imagem e retorna a textura criada
+SDL_Texture* carregarImagem (SDL_Renderer* renderer, char *arquivo) {
+    // textura que será retornada
+    SDL_Texture *resultado = NULL;
 
-    if (textSurface == NULL) {
-        printf("erro ao criar texto, erro: %s", TTF_GetError());
+    // imagem carregada a partir do arquivo
+    SDL_Surface *carregada = IMG_Load(arquivo);
+
+    // verifica se não é null
+    if (carregada == NULL) {
+        printf("Nao foi possivel carregar a imagem %s, erro: %s", arquivo, IMG_GetError());
     } else {
-        // transforma a surface numa texture
-        SDL_Texture* textTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
-        // salva w e h
-        rect->w = textSurface->w;
-        rect->h = textSurface->h;
-        //calcula e salva x
-        rect->x = (*SCREEN_WIDTH - rect->w)/2;
-        // libera a surface
-        SDL_FreeSurface(textSurface);
-        // retorna
-        return textTexture;
+        // cria a otimizada, que sera mais rapida para o renderer varias vezes
+        resultado = SDL_CreateTextureFromSurface(renderer, carregada);
+
+        // verifica
+        if (resultado == NULL) {
+            printf("Erro ao otimizar a imagem %s, erro: %s", arquivo, SDL_GetError());
+        }
+
+        // libera a carregada
+        SDL_FreeSurface(carregada);
     }
-    return NULL;
+    // retorna o resultado
+    return resultado;
 }
 
-//permite que o usuÃ¡rio fecha a janela clicando no X: (flavio)
+//permite que o usuário fecha a janela clicando no X: (flavio)
 void closeWindow(SDL_Event* event, bool* running){
     if(event->type == SDL_QUIT){
         *running = false;
@@ -109,6 +118,7 @@ void quit() {
     // para a musica
     Mix_HaltMusic();
     // sai de todas bibliotecas
+    IMG_Quit();
     TTF_Quit();
     Mix_Quit();
     SDL_Quit();
@@ -125,11 +135,36 @@ void play_Music(char path[]){
     }
 }
 
+//gera a textura com o tempo recebido e corrige a posicao: (cesar)
+SDL_Texture* criarTexture(int tempo, SDL_Color cor, SDL_Rect* rect) {
+    char texto[2];
+    sprintf(texto, "%d", tempo);
+    // carrega uma surface com a cor e o texto
+    SDL_Surface* textSurface = TTF_RenderText_Solid(fonte, texto, cor);
+
+    if (textSurface == NULL) {
+        printf("erro ao criar texto, erro: %s", TTF_GetError());
+    } else {
+        // transforma a surface numa texture
+        SDL_Texture* textTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
+        // salva w e h
+        rect->w = textSurface->w;
+        rect->h = textSurface->h;
+        //calcula e salva x
+        rect->x = (SCREEN_WIDTH - rect->w)/2;
+        // libera a surface
+        SDL_FreeSurface(textSurface);
+        // retorna
+        return textTexture;
+    }
+    return NULL;
+}
+
 //atualiza o tempo, destroi a tempoTexture, atualiza o contador e retorna uma texture com o tempo atualizado:
-SDL_Texture* atualizaTempoMostrado(int* tempoRestante, SDL_Texture* tempoTexture, int* contador, SDL_Color *tempoColor, SDL_Rect *tempoRect, const int* SCREEN_WIDTH){
+SDL_Texture* atualizaTempoMostrado(int* tempoRestante, SDL_Texture* tempoTexture, int* contador, SDL_Color *tempoColor, SDL_Rect *tempoRect){
     (*tempoRestante)--;
     SDL_DestroyTexture(tempoTexture);
     *contador = SDL_GetTicks();
 
-    return criarTexture(*tempoRestante, *tempoColor, tempoRect, SCREEN_WIDTH);
+    return criarTexture(*tempoRestante, *tempoColor, tempoRect);
 }
