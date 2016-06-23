@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <SDL.h>
 #include <stdlib.h>
-#include "SDL_Main.h"
+#include "SDL_Media.h"
 #include "SDL_Fases.h"
 #include "SDL_Physics.h"
 #include "bool.h"
@@ -12,7 +12,6 @@
 void fasebug(){
 
     //declarem td aqui em cima:
-    SDL_Event event;
     bool running = true; //mantem o laço principal rodando
     int contWhile = 1; //sempre contWhile = 1;
     int tantoFaz = 0; //use para parametros q tanto fazem
@@ -40,11 +39,11 @@ void fasebug(){
 
     while(tempoRestante >= 0 && running){
         //verifica os eventos:
-        while(SDL_PollEvent(&event)){
+        while(SDL_PollEvent(&gEvent)){
             //fechar janela
-            closeWindow(&event, &running);
+            closeWindow(&running);
             //pega os comandos para o objeto:
-            ctrlObj(&event, &ctrlRect);
+            ctrlObj(&ctrlRect);
         }
         //fundo verde:
         SDL_SetRenderDrawColor(gRenderer, 0, 255, 0, 255);
@@ -86,7 +85,6 @@ void fasebug(){
 }
 
 void faseExemplo(){
-    SDL_Event event;
     bool running = true; //mantem o laço principal rodando
     int contWhile = 1; //sempre contWhile = 1;
     int tantoFaz = 0; //use para parametros q tanto fazem
@@ -128,11 +126,11 @@ void faseExemplo(){
 
     while(tempoRestante >= 0 && running){
         //verifica os eventos:
-        while(SDL_PollEvent(&event)){
+        while(SDL_PollEvent(&gEvent)){
             //fechar janela
-            closeWindow(&event, &running);
+            closeWindow(&running);
             //pega os comandos para o personagem:
-            ctrlObj(&event, &ctrlPersonagem);
+            ctrlObj(&ctrlPersonagem);
         }
 
         //verifica se duas circunferências se intersectam:
@@ -209,7 +207,6 @@ void faseExemplo(){
 
 void faseTutorial1(){
     //declarem td aqui em cima:
-    SDL_Event event;
     bool running = true; //mantem o laço principal rodando
     int contWhile = 1; //sempre contWhile = 1;
     int tantoFaz = 0; //use para parametros q tanto fazem
@@ -239,11 +236,11 @@ void faseTutorial1(){
 
     while(tempoRestante >= 0 && running){
         //verifica os eventos:
-        while(SDL_PollEvent(&event)){
+        while(SDL_PollEvent(&gEvent)){
             //fechar janela
-            closeWindow(&event, &running);
+            closeWindow(&running);
             //pega os comandos para o personagem:
-            ctrlObj(&event, &ctrlPersonagem);
+            ctrlObj(&ctrlPersonagem);
         }
 
         //fundo verde:
@@ -304,7 +301,6 @@ void faseTutorial1(){
 
 void faseTutorial2(){
     //declarem td aqui em cima:
-    SDL_Event event;
     bool running = true; //mantem o laço principal rodando
     int contWhile = 1; //sempre contWhile = 1;
     int tantoFaz = 0; //use para parametros q tanto fazem
@@ -334,11 +330,11 @@ void faseTutorial2(){
 
     while(tempoRestante >= 0 && running){
         //verifica os eventos:
-        while(SDL_PollEvent(&event)){
+        while(SDL_PollEvent(&gEvent)){
             //fechar janela
-            closeWindow(&event, &running);
+            closeWindow(&running);
             //pega os comandos para o personagem:
-            ctrlObj(&event, &ctrlPersonagem);
+            ctrlObj(&ctrlPersonagem);
         }
 
         //fundo verde:
@@ -399,7 +395,6 @@ void faseTutorial2(){
 
 void faseTutorial3(){
     //declarem td aqui em cima:
-    SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
     bool running = true; //mantem o laço principal rodando
     int contWhile = 1; //sempre contWhile = 1;
     int tantoFaz = 0; //use para parametros q tanto fazem
@@ -441,11 +436,11 @@ void faseTutorial3(){
 
     while(tempoRestante >= 0 && running){
         //verifica os eventos:
-        while(SDL_PollEvent(event)){
+        while(SDL_PollEvent(&gEvent)){
             //fechar janela
-            closeWindow(event, &running);
+            closeWindow(&running);
             //pega os comandos para o personagem:
-            ctrlObj(event, &ctrlPersonagem);
+            ctrlObj(&ctrlPersonagem);
         }
 
         //fundo verde:
@@ -522,7 +517,6 @@ void faseTutorial3(){
 //quando a fase receber o tema pode trocar o nome da funcao.
 void faseTematica1(){
     //declarem td aqui em cima:
-    SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
     bool running = true; //mantem o laço principal rodando
     int contWhile = 1; //sempre contWhile = 1;
     int tantoFaz = 0; //use para parametros q tanto fazem
@@ -533,7 +527,7 @@ void faseTematica1(){
     SDL_Texture* inimigoTexture = carregarImagem(gRenderer, "./media/skins/pokebola.png");
 
     //TEMPO
-    int tempoRestante = 20; //duração da fase em segundos
+    int tempoRestante = 30; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
@@ -581,11 +575,11 @@ void faseTematica1(){
 
     while(tempoRestante >= 0 && running){
         //verifica os eventos:
-        while(SDL_PollEvent(event)){
+        while(SDL_PollEvent(&gEvent)){
             //fechar janela
-            closeWindow(event, &running);
+            closeWindow(&running);
             //pega os comandos para o personagem:
-            ctrlObj(event, &ctrlPersonagem);
+            ctrlObj(&ctrlPersonagem);
         }
 
         // imprime o fundo:
@@ -670,4 +664,3 @@ void faseTematica1(){
     SDL_DestroyTexture(personagemTexture);
     //-----------------
 }
-
