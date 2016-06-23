@@ -1,6 +1,6 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
-#include "./code/SDL_Main.h"
+#include "./code/SDL_Media.h"
 #include "./code/SDL_Physics.h"
 #include "./code/SDL_Fases.h"
 #include "./code/bool.h"
@@ -18,7 +18,7 @@ int main (int argc, char* args[]) {
         printf( "Failed to initialize!\n" );
     }
     else {
-        play_Music("./media/songs/musica1.ogg"); //carrega e toca a musica:
+        play_Music("./media/songs/Turning_Japanese.ogg"); //carrega e toca a musica:
 
         //coloquem cada modo dentro de uma função pra dps fazer o menu:
         historia();
