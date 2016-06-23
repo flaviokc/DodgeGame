@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <SDL.h>
 #include "SDL_Physics.h"
-#include "SDL_main.h"
+#include "SDL_Media.h"
 #include "bool.h"
 
 //esse arquivo contem as funcoes declaradas em "physics.h"
@@ -52,10 +52,10 @@ void acelObj(Var* varObj, int contWhile){
 }
 
 //pega os comandos para o objeto:
-void ctrlObj(SDL_Event* event, Ctrl* ctrlObj){
+void ctrlObj(Ctrl* ctrlObj){
 
-    if (event->type == SDL_KEYDOWN) {
-        switch ((*event).key.keysym.sym) {
+    if (gEvent.type == SDL_KEYDOWN) {
+        switch (gEvent.key.keysym.sym) {
             case SDLK_LEFT:
                 ctrlObj->left = true;
             break;
@@ -69,8 +69,8 @@ void ctrlObj(SDL_Event* event, Ctrl* ctrlObj){
                 ctrlObj->up = true;
             break;
         }
-    } else if (event->type == SDL_KEYUP) {
-        switch ((*event).key.keysym.sym) {
+    } else if (gEvent.type == SDL_KEYUP) {
+        switch (gEvent.key.keysym.sym) {
             case SDLK_LEFT:
                 ctrlObj->left = false;
             break;
