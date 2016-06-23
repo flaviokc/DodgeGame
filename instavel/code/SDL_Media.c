@@ -9,8 +9,6 @@
 //Janela e Render:
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
-//Eventos em geral:
-SDL_Event gEvent = {0};
 //Fonte TTF para textos:
 TTF_Font* fonte = NULL;
 
@@ -100,8 +98,8 @@ SDL_Texture* carregarImagem (SDL_Renderer* renderer, char *arquivo) {
 }
 
 //permite que o usuário fecha a janela clicando no X: (flavio)
-void closeWindow(bool* running){
-    if(gEvent.type == SDL_QUIT){
+void closeWindow(SDL_Event* event, bool* running){
+    if(event->type == SDL_QUIT){
         *running = false;
     }
 }

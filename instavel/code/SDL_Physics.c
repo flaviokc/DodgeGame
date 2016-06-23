@@ -52,10 +52,10 @@ void acelObj(Var* varObj, int contWhile){
 }
 
 //pega os comandos para o objeto:
-void ctrlObj(Ctrl* ctrlObj){
+void ctrlObj(SDL_Event* event, Ctrl* ctrlObj){
 
-    if (gEvent.type == SDL_KEYDOWN) {
-        switch (gEvent.key.keysym.sym) {
+    if (event->type == SDL_KEYDOWN) {
+        switch (event->key.keysym.sym) {
             case SDLK_LEFT:
                 ctrlObj->left = true;
             break;
@@ -69,8 +69,8 @@ void ctrlObj(Ctrl* ctrlObj){
                 ctrlObj->up = true;
             break;
         }
-    } else if (gEvent.type == SDL_KEYUP) {
-        switch (gEvent.key.keysym.sym) {
+    } else if (event->type == SDL_KEYUP) {
+        switch (event->key.keysym.sym) {
             case SDLK_LEFT:
                 ctrlObj->left = false;
             break;

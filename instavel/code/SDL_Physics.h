@@ -36,7 +36,7 @@
     //(usa static) atualiza a velocidade de acordo com os comandos contidos na struct Ctrl e com a freqCtrl: (flavio)
     void doTheCtrl(Ctrl* ctrlObj, Var* varObj, Hand* handObj, int contWhile);
     //pega os comandos para o objeto:
-    void ctrlObj(Ctrl* ctrlObj);
+    void ctrlObj(SDL_Event* event, Ctrl* ctrlObj);
     //verifica se duas circunferências se intersectam: (flavio)
     bool coll2Circles(SDL_Rect* rect1, SDL_Rect* rect2);
     //verifica se o inimigo bateu na parede e inverte sua velocidade perpendicularmente: (flavio)

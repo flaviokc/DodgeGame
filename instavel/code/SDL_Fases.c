@@ -10,8 +10,8 @@
 
 //fases:
 void fasebug(){
-
     //declarem td aqui em cima:
+    SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
     bool running = true; //mantem o laço principal rodando
     int contWhile = 1; //sempre contWhile = 1;
     int tantoFaz = 0; //use para parametros q tanto fazem
@@ -39,11 +39,11 @@ void fasebug(){
 
     while(tempoRestante >= 0 && running){
         //verifica os eventos:
-        while(SDL_PollEvent(&gEvent)){
+        while(SDL_PollEvent(event)){
             //fechar janela
-            closeWindow(&running);
+            closeWindow(event, &running);
             //pega os comandos para o objeto:
-            ctrlObj(&ctrlRect);
+            ctrlObj(event, &ctrlRect);
         }
         //fundo verde:
         SDL_SetRenderDrawColor(gRenderer, 0, 255, 0, 255);
@@ -80,11 +80,13 @@ void fasebug(){
         atualizaContWhile(&contWhile, 16); //O segundo argumento recebe o (MMC(todos os freqAcel e freqCtrl) + 1)
         //delay pra controlar a velocidade de atualização da tela:
         SDL_Delay(20);
-
     }
+    free(event);
 }
 
 void faseExemplo(){
+
+    SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
     bool running = true; //mantem o laço principal rodando
     int contWhile = 1; //sempre contWhile = 1;
     int tantoFaz = 0; //use para parametros q tanto fazem
@@ -126,11 +128,11 @@ void faseExemplo(){
 
     while(tempoRestante >= 0 && running){
         //verifica os eventos:
-        while(SDL_PollEvent(&gEvent)){
+        while(SDL_PollEvent(event)){
             //fechar janela
-            closeWindow(&running);
+            closeWindow(event, &running);
             //pega os comandos para o personagem:
-            ctrlObj(&ctrlPersonagem);
+            ctrlObj(event, &ctrlPersonagem);
         }
 
         //verifica se duas circunferências se intersectam:
@@ -203,10 +205,12 @@ void faseExemplo(){
         SDL_Delay(20);
     }
     //-----------------
+    free(event);
 }
 
 void faseTutorial1(){
     //declarem td aqui em cima:
+    SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
     bool running = true; //mantem o laço principal rodando
     int contWhile = 1; //sempre contWhile = 1;
     int tantoFaz = 0; //use para parametros q tanto fazem
@@ -236,11 +240,11 @@ void faseTutorial1(){
 
     while(tempoRestante >= 0 && running){
         //verifica os eventos:
-        while(SDL_PollEvent(&gEvent)){
+        while(SDL_PollEvent(event)){
             //fechar janela
-            closeWindow(&running);
+            closeWindow(event, &running);
             //pega os comandos para o personagem:
-            ctrlObj(&ctrlPersonagem);
+            ctrlObj(event, &ctrlPersonagem);
         }
 
         //fundo verde:
@@ -297,10 +301,12 @@ void faseTutorial1(){
         SDL_Delay(20);
     }
     //-----------------
+    free(event);
 }
 
 void faseTutorial2(){
     //declarem td aqui em cima:
+    SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
     bool running = true; //mantem o laço principal rodando
     int contWhile = 1; //sempre contWhile = 1;
     int tantoFaz = 0; //use para parametros q tanto fazem
@@ -330,11 +336,11 @@ void faseTutorial2(){
 
     while(tempoRestante >= 0 && running){
         //verifica os eventos:
-        while(SDL_PollEvent(&gEvent)){
+        while(SDL_PollEvent(event)){
             //fechar janela
-            closeWindow(&running);
+            closeWindow(event, &running);
             //pega os comandos para o personagem:
-            ctrlObj(&ctrlPersonagem);
+            ctrlObj(event, &ctrlPersonagem);
         }
 
         //fundo verde:
@@ -391,10 +397,12 @@ void faseTutorial2(){
         SDL_Delay(20);
     }
     //-----------------
+    free(event);
 }
 
 void faseTutorial3(){
     //declarem td aqui em cima:
+    SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
     bool running = true; //mantem o laço principal rodando
     int contWhile = 1; //sempre contWhile = 1;
     int tantoFaz = 0; //use para parametros q tanto fazem
@@ -436,11 +444,11 @@ void faseTutorial3(){
 
     while(tempoRestante >= 0 && running){
         //verifica os eventos:
-        while(SDL_PollEvent(&gEvent)){
+        while(SDL_PollEvent(event)){
             //fechar janela
-            closeWindow(&running);
+            closeWindow(event, &running);
             //pega os comandos para o personagem:
-            ctrlObj(&ctrlPersonagem);
+            ctrlObj(event, &ctrlPersonagem);
         }
 
         //fundo verde:
@@ -512,19 +520,21 @@ void faseTutorial3(){
         SDL_Delay(20);
     }
     //-----------------
+    free(event);
 }
 
 //quando a fase receber o tema pode trocar o nome da funcao.
 void faseTematica1(){
     //declarem td aqui em cima:
+    SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
     bool running = true; //mantem o laço principal rodando
     int contWhile = 1; //sempre contWhile = 1;
     int tantoFaz = 0; //use para parametros q tanto fazem
 
     //TEXTURAS
     SDL_Texture* fundoTexture = carregarImagem(gRenderer, "./media/backgrounds/pokemon_comp.jpg");
-    SDL_Texture* personagemTexture = carregarImagem(gRenderer, "./media/skins/pikachu.png");
-    SDL_Texture* inimigoTexture = carregarImagem(gRenderer, "./media/skins/pokebola.png");
+    SDL_Texture* personagemTexture = carregarImagem(gRenderer, "./media/skins/player/pikachu.png");
+    SDL_Texture* inimigoTexture = carregarImagem(gRenderer, "./media/skins/enemy/pokebola.png");
 
     //TEMPO
     int tempoRestante = 30; //duração da fase em segundos
@@ -575,11 +585,11 @@ void faseTematica1(){
 
     while(tempoRestante >= 0 && running){
         //verifica os eventos:
-        while(SDL_PollEvent(&gEvent)){
+        while(SDL_PollEvent(event)){
             //fechar janela
-            closeWindow(&running);
+            closeWindow(event, &running);
             //pega os comandos para o personagem:
-            ctrlObj(&ctrlPersonagem);
+            ctrlObj(event, &ctrlPersonagem);
         }
 
         // imprime o fundo:
@@ -658,9 +668,10 @@ void faseTematica1(){
         //delay pra controlar a velocidade de atualização da tela:
         SDL_Delay(20);
     }
+    //-----------------
     SDL_DestroyTexture(tempoTexture);
     SDL_DestroyTexture(fundoTexture);
     SDL_DestroyTexture(inimigoTexture);
     SDL_DestroyTexture(personagemTexture);
-    //-----------------
+    free(event);
 }

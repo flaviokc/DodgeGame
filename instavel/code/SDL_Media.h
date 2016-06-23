@@ -12,12 +12,11 @@
 
     extern SDL_Window* gWindow;
     extern SDL_Renderer* gRenderer;
-    extern SDL_Event gEvent;
 
     //initialize sdl:
     bool init();
     //permite que o usuário fecha a janela clicando no X: (flavio)
-    void closeWindow(bool* running);
+    void closeWindow(SDL_Event* event, bool* running);
     //close sdl
     void quit();// carrega uma imagem e retorna a textura criada (cesar)
     SDL_Texture* carregarImagem (SDL_Renderer* renderer, char *arquivo);
