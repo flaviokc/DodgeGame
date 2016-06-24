@@ -7,20 +7,6 @@
     //esse arquivo declara as fases do jogo.
 
     //fases:
-    void faseExemplo();
-    void fasebug();
-
-    //Tutorial:
-    void faseTutorial1();
-    void faseTutorial2();
-    void faseTutorial3();
-    //Tematicas:
-    void faseTematica1();
-    void faseTematica2();
-    void faseTematica3();
-    void faseTematica4();
-    void faseTematica5();
-    void faseTematica6();
-    void faseTematica7();
+    void faseExemplo(const int* SCREEN_WIDTH, const int* SCREEN_HEIGHT);
 
 #endif
