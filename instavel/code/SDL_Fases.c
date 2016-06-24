@@ -1451,3 +1451,171 @@ void faseTematica7(){
     SDL_DestroyTexture(personagemTexture);
     free(event);
 }
+
+void faseTematica8(){
+    //declarem td aqui em cima:
+    SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
+    bool running = true; //mantem o laço principal rodando
+    int contWhile = 1; //sempre contWhile = 1;
+    int tantoFaz = 0; //use para parametros q tanto fazem
+
+    //TEXTURAS
+    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/pokemon_comp.jpg");
+    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/pikachu.png");
+    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/pokebola.png");
+
+    //TEMPO
+    int tempoRestante = 20; //duração da fase em segundos
+    int contador = SDL_GetTicks(); //registra o tempo atual no contador
+    SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
+    SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
+    // carrega a primeira textura do tempo
+    SDL_Texture* tempoTexture = criarTexture(tempoRestante, tempoColor, &tempoRect);
+    //-------------------------
+
+    //OBJETOS:
+
+    //personagem:
+    SDL_Rect personagem = {500, 550, 85, 85}; //personagem
+    Var varPersonagem = {0,0,0,0,3}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
+    Hand handPersonagem = {1,1,5}; //struct de controle do objeto (handlingX, handlingY, freqCtrl); "handling == dirigibilidade"
+    Ctrl ctrlPersonagem = {false, false, false, false}; //struct bool direçoes de controle
+    //-----------------------------------
+
+    //enemy1: flutuante
+    SDL_Rect inimigo1 = {500, 300, 50, 50}; //personagem
+    Var varInimigo1 = {5,-5,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
+    //-----------------------------------
+
+    //enemy2: flutuante
+    SDL_Rect inimigo2 = {700, 400, 50, 50}; //personagem
+    Var varInimigo2 = {5,4,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
+    //-----------------------------------
+
+    //enemy3: flutuante
+    SDL_Rect inimigo3 = {400, 200, 50, 50}; //personagem
+    Var varInimigo3 = {4,-5,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
+    //-----------------------------------
+
+    //enemy4: flutuante
+    SDL_Rect inimigo4 = {200, 200, 50, 50}; //personagem
+    Var varInimigo4 = {3,-5,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
+    //-----------------------------------
+
+    //enemy5: flutuante
+    SDL_Rect inimigo5 = {400, 200, 50, 50}; //personagem
+    Var varInimigo5 = {2,-5,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
+    //-----------------------------------
+
+    //enemy4: flutuante
+    SDL_Rect inimigo6 = {200, 200, 50, 50}; //personagem
+    Var varInimigo6 = {5,-2,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
+    //-----------------------------------
+
+
+    while(tempoRestante >= 0 && running){
+        //verifica os eventos:
+        while(SDL_PollEvent(event)){
+            //fechar janela
+            closeWindow(event, &running);
+            //pega os comandos para o personagem:
+            ctrlObj(event, &ctrlPersonagem);
+        }
+
+        //OBJETOS:
+        // imprime o fundo:
+        SDL_RenderCopy(gRenderer, fundoTexture, NULL, NULL);
+
+        //tempo restante:
+        SDL_RenderCopy(gRenderer, tempoTexture, 0, &tempoRect);
+
+        //OBJETOS:
+        //print personagem:
+        SDL_RenderCopy(gRenderer, personagemTexture, 0, &personagem);
+
+        //print inimigo1:
+        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo1);
+
+        //print inimigo2:
+        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo2);
+
+        //print inimigo3:
+        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo3);
+        //-------------------
+
+        //print inimigo4:
+        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo4);
+        //-------------------
+
+        //print inimigo5:
+        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo5);
+        //-------------------
+
+        //print inimigo6:
+        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo6);
+        //-------------------
+
+        //atualiza a tela:
+        SDL_RenderPresent(gRenderer);
+        //-------------------------------------------------------- aqui a tela é atualizada
+
+        //INTERACOES FISICAS
+
+        //verifica se duas circunferências se intersectam:
+        if(coll2Circles(&personagem, &inimigo1)||coll2Circles(&personagem, &inimigo2)||coll2Circles(&personagem, &inimigo3)||coll2Circles(&personagem, &inimigo4)||coll2Circles(&personagem, &inimigo5)||coll2Circles(&personagem, &inimigo6)) {
+            running = false;
+        }
+
+        //personagem:
+        collRectWall(&personagem, &varPersonagem);
+        doTheCtrl(&ctrlPersonagem, &varPersonagem, &handPersonagem, contWhile);
+        velObj(&personagem.x, &personagem.y, &varPersonagem.vX, &varPersonagem.vY);
+
+        //inimigo1: flutuante
+        collRectWall(&inimigo1, &varInimigo1);
+        velObj(&inimigo1.x, &inimigo1.y, &varInimigo1.vX, &varInimigo1.vY);
+        //-----------------------
+
+        //inimigo2: flutuante
+        collRectWall(&inimigo2, &varInimigo2);
+        velObj(&inimigo2.x, &inimigo2.y, &varInimigo2.vX, &varInimigo2.vY);
+        //-----------------------
+
+        //inimigo3: flutuante
+        collRectWall(&inimigo3, &varInimigo3);
+        velObj(&inimigo3.x, &inimigo3.y, &varInimigo3.vX, &varInimigo3.vY);
+        //-----------------------
+
+        //inimigo4: flutuante
+        collRectWall(&inimigo4, &varInimigo4);
+        velObj(&inimigo4.x, &inimigo4.y, &varInimigo4.vX, &varInimigo4.vY);
+        //-----------------------
+
+        //inimigo5: flutuante
+        collRectWall(&inimigo5, &varInimigo5);
+        velObj(&inimigo5.x, &inimigo5.y, &varInimigo5.vX, &varInimigo5.vY);
+        //-----------------------
+
+        //inimigo6: flutuante
+        collRectWall(&inimigo6, &varInimigo6);
+        velObj(&inimigo6.x, &inimigo6.y, &varInimigo6.vX, &varInimigo6.vY);
+        //-----------------------
+
+        //verifica se passou um segundo desde o ultimo registro do tempo:
+        if (SDL_GetTicks() - contador >= 1000) {
+            //atualiza o tempo, destroi a tempoTexture, atualiza o contador e retorna uma texture com o tempo atualizado:
+            tempoTexture = atualizaTempoMostrado(&tempoRestante, tempoTexture, &contador, &tempoColor, &tempoRect);
+        }
+
+        //atualiza o contWhile
+        atualizaContWhile(&contWhile, 16); //O segundo argumento recebe o (MMC(todos os freqAcel e freqCtrl) + 1)
+        //delay pra controlar a velocidade de atualização da tela:
+        SDL_Delay(20);
+    }
+    //-----------------
+    SDL_DestroyTexture(tempoTexture);
+    SDL_DestroyTexture(fundoTexture);
+    SDL_DestroyTexture(inimigoTexture);
+    SDL_DestroyTexture(personagemTexture);
+    free(event);
+}
