@@ -218,7 +218,7 @@ void faseTutorial1(){
 
     //TEXTURAS
     SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/tutorial.png");
-    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/START.png");
+    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/blacksheep.png");
     SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/porca.png");
 
     //TEMPO
@@ -320,7 +320,7 @@ void faseTutorial2(){
 
     //TEXTURAS
     SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/tutorial.png");
-    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/START.png");
+    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/blacksheep.png");
     SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/porca.png");
 
     //TEMPO
@@ -422,7 +422,7 @@ void faseTutorial3(){
 
     //TEXTURAS
     SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/tutorial.png");
-    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/START.png");
+    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/blacksheep.png");
     SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/porca.png");
 
     //TEMPO
@@ -549,7 +549,7 @@ void faseTematica1(){
     int tantoFaz = 0; //use para parametros q tanto fazem
 
     //TEXTURAS
-    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/pokemon_comp.jpg");
+    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/pokemon.jpg");
     SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/pikachu.png");
     SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/pokebola.png");
 
@@ -702,9 +702,9 @@ void faseTematica5(){
     int tantoFaz = 0; //use para parametros q tanto fazem
 
     //TEXTURAS
-    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/pokemon_comp.jpg");
-    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/pikachu.png");
-    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/pokebola.png");
+    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/rock.png");
+    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/slash.png");
+    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/inimigorock2.png");
 
     //TEMPO
     int tempoRestante = 20; //duração da fase em segundos
@@ -798,6 +798,7 @@ void faseTematica5(){
     free(event);
 }
 
+//slash
 void faseTematica3(){
     //tematica3
     //declarem td aqui em cima:
@@ -807,9 +808,10 @@ void faseTematica3(){
     int tantoFaz = 0; //use para parametros q tanto fazem
 
     //TEXTURAS
-    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/pokemon_comp.jpg");
-    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/pikachu.png");
-    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/pokebola.png");
+    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/rock.png");
+    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/slash.png");
+    SDL_Texture* inimigo1Texture = carregarImagem("./media/skins/enemy/inimigorock2.png");
+    SDL_Texture* inimigo2Texture = carregarImagem("./media/skins/enemy/inimigorock1.png");
 
     //TEMPO
     int tempoRestante = 20; //duração da fase em segundos
@@ -860,11 +862,11 @@ void faseTematica3(){
         SDL_RenderCopy(gRenderer, personagemTexture, 0, &personagem);
 
         //print inimigo1:
-        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo1);
+        SDL_RenderCopy(gRenderer, inimigo1Texture, 0, &inimigo1);
         //-------------------
 
         //print inimigo2:
-        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo2);
+        SDL_RenderCopy(gRenderer, inimigo2Texture, 0, &inimigo2);
         //-------------------
 
         //atualiza a tela:
@@ -910,11 +912,13 @@ void faseTematica3(){
     //-----------------
     SDL_DestroyTexture(tempoTexture);
     SDL_DestroyTexture(fundoTexture);
-    SDL_DestroyTexture(inimigoTexture);
+    SDL_DestroyTexture(inimigo1Texture);
+    SDL_DestroyTexture(inimigo2Texture);
     SDL_DestroyTexture(personagemTexture);
     free(event);
 }
 
+//fica pro batman
 void faseTematica4(){
     //tematica4
     //declarem td aqui em cima:
@@ -1189,6 +1193,7 @@ void faseTematica7(){
     free(event);
 }
 
+//kelly
 void faseTematica2(){
     //tematica2
     //declarem td aqui em cima:
@@ -1198,9 +1203,10 @@ void faseTematica2(){
     int tantoFaz = 0; //use para parametros q tanto fazem
 
     //TEXTURAS
-    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/pokemon_comp.jpg");
-    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/pikachu.png");
-    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/pokebola.png");
+    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/kelly.png");
+    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/kelly.png");
+    SDL_Texture* inimigo1Texture = carregarImagem("./media/skins/enemy/inimigokelly2.png");
+    SDL_Texture* inimigo2Texture = carregarImagem("./media/skins/enemy/inimigokelly1.png");
 
     //TEMPO
     int tempoRestante = 20; //duração da fase em segundos
@@ -1256,15 +1262,15 @@ void faseTematica2(){
         SDL_RenderCopy(gRenderer, personagemTexture, 0, &personagem);
 
         //print inimigo1:
-        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo1);
+        SDL_RenderCopy(gRenderer, inimigo1Texture, 0, &inimigo1);
         //-------------------
 
         //print inimigo2:
-        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo2);
+        SDL_RenderCopy(gRenderer, inimigo2Texture, 0, &inimigo2);
         //-------------------
 
         //print inimigo3:
-        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo3);
+        SDL_RenderCopy(gRenderer, inimigo1Texture, 0, &inimigo3);
         //-------------------
 
         //atualiza a tela:
@@ -1316,7 +1322,8 @@ void faseTematica2(){
     //-----------------
     SDL_DestroyTexture(tempoTexture);
     SDL_DestroyTexture(fundoTexture);
-    SDL_DestroyTexture(inimigoTexture);
+    SDL_DestroyTexture(inimigo1Texture);
+    SDL_DestroyTexture(inimigo2Texture);
     SDL_DestroyTexture(personagemTexture);
     free(event);
 }
@@ -1462,6 +1469,7 @@ void faseTematica6(){
     free(event);
 }
 
+//deadpool
 void faseTematica8(){
     //tematica8
     //declarem td aqui em cima:
@@ -1471,9 +1479,9 @@ void faseTematica8(){
     int tantoFaz = 0; //use para parametros q tanto fazem
 
     //TEXTURAS
-    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/pokemon_comp.jpg");
-    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/pikachu.png");
-    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/pokebola.png");
+    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/cidade_deadpool.png");
+    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/deadpool.png");
+    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/bacteria.png");
 
     //TEMPO
     int tempoRestante = 20; //duração da fase em segundos
