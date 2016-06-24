@@ -99,7 +99,7 @@ SDL_Texture* carregarImagem (char *arquivo) {
 
 //permite que o usuário fecha a janela clicando no X: (flavio)
 void closeWindow(SDL_Event* event, bool* running){
-    if(event->type == SDL_QUIT){
+    if(event->type == SDL_QUIT || (event->type == SDL_KEYDOWN && event->key.keysym.sym == SDLK_ESCAPE)){
         *running = false;
     }
 }
@@ -136,7 +136,7 @@ void play_Music(char path[]){
 
 //gera a textura com o tempo recebido e corrige a posicao: (cesar)
 SDL_Texture* criarTexture(int tempo, SDL_Color cor, SDL_Rect* rect) {
-    char texto[2];
+    char texto[3];
     sprintf(texto, "%d", tempo);
     // carrega uma surface com a cor e o texto
     SDL_Surface* textSurface = TTF_RenderText_Solid(fonte, texto, cor);
