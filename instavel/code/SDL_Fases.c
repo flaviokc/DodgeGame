@@ -1638,3 +1638,150 @@ void faseTematica8(){
     SDL_DestroyTexture(personagemTexture);
     free(event);
 }
+
+void faseMulti () {
+    //declarem td aqui em cima:
+    SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
+    bool running = true; //mantem o laço principal rodando
+    int contWhile = 1; //sempre contWhile = 1;
+    int tantoFaz = 0; //use para parametros q tanto fazem
+
+    //TEXTURAS
+    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/cidade_batman.png");
+    SDL_Texture* personagem1Texture = carregarImagem("./media/skins/player/batman.png");
+    SDL_Texture* personagem2Texture = carregarImagem("./media/skins/player/Superman.png");
+    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/apocalipse.png");
+
+    //TEMPO
+    int tempo = 0; //duração da fase em segundos
+    int contador = SDL_GetTicks(); //registra o tempo atual no contador
+    SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
+    SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
+    // carrega a primeira textura do tempo
+    SDL_Texture* tempoTexture = criarTexture(tempo, tempoColor, &tempoRect);
+    //-------------------------
+
+    //OBJETOS:
+
+    //personagem1:
+    SDL_Rect personagem1 = {500, 550, 85, 85}; //personagem
+    Var varPersonagem1 = {0,0,0,1,3}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
+    Hand handPersonagem1 = {1,1,5}; //struct de controle do objeto (handlingX, handlingY, freqCtrl); "handling == dirigibilidade"
+    Ctrl ctrlPersonagem1 = {false, false, false, false}; //struct bool direçoes de controle
+    //-----------------------------------
+
+    //personagem2:
+    SDL_Rect personagem2 = {500, 550, 85, 85}; //personagem
+    Var varPersonagem2 = {0,0,0,1,3}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
+    Hand handPersonagem2 = {1,1,5}; //struct de controle do objeto (handlingX, handlingY, freqCtrl); "handling == dirigibilidade"
+    Ctrl ctrlPersonagem2 = {false, false, false, false}; //struct bool direçoes de controle
+    //-----------------------------------
+
+    //enemy1:
+    SDL_Rect inimigo1 = {0, 0, 80, 80}; //personagem
+    Var varInimigo1 = {0,7,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
+    Rota rotaInimigo1 = {0, 0, SCREEN_WIDTH - inimigo1.w, SCREEN_HEIGHT - inimigo1.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
+    //-----------------------------------
+
+    //enemy2:
+    SDL_Rect inimigo2 = {SCREEN_WIDTH - 80, SCREEN_HEIGHT - 80, 80, 80}; //personagem
+    Var varInimigo2 = {0,-7,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
+    Rota rotaInimigo2 = {0, 0, SCREEN_WIDTH - inimigo2.w, SCREEN_HEIGHT - inimigo2.h}; //(a rota eh um retangulo de onde objeto nao consegue sair)
+    //-----------------------------------
+
+    //enemy3:
+    SDL_Rect inimigo3 = {700, 200, 50, 50}; //personagem
+    Var varInimigo3 = {5,-5,tantoFaz,tantoFaz,tantoFaz}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
+    //-----------------------------------
+
+    while(running){
+        //verifica os eventos:
+        while(SDL_PollEvent(event)){
+            //fechar janela
+            closeWindow(event, &running);
+            //pega os comandos para o personagem:
+            ctrlObj(event, &ctrlPersonagem1);
+            //pega os comandos para o personagem 2:
+            ctrlExtra(event, &ctrlPersonagem2);
+        }
+
+        //OBJETOS:
+        // imprime o fundo:
+        SDL_RenderCopy(gRenderer, fundoTexture, NULL, NULL);
+
+        //tempo restante:
+        SDL_RenderCopy(gRenderer, tempoTexture, 0, &tempoRect);
+
+        //OBJETOS:
+        //print personagens:
+        SDL_RenderCopy(gRenderer, personagem1Texture, 0, &personagem1);
+        SDL_RenderCopy(gRenderer, personagem2Texture, 0, &personagem2);
+
+        //print inimigo1:
+        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo1);
+
+        //print inimigo2:
+        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo2);
+
+        //print inimigo3:
+        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo3);
+        //-------------------
+
+        //atualiza a tela:
+        SDL_RenderPresent(gRenderer);
+        //-------------------------------------------------------- aqui a tela é atualizada
+
+        //INTERACOES FISICAS
+
+        //verifica se duas circunferências se intersectam:
+        if(coll2Circles(&personagem1, &inimigo1)||coll2Circles(&personagem1, &inimigo2)||coll2Circles(&personagem1, &inimigo3)||
+                coll2Circles(&personagem2, &inimigo1)||coll2Circles(&personagem2, &inimigo2)||coll2Circles(&personagem2, &inimigo3)) {
+            running = false;
+        }
+
+        //personagem:
+        collRectWall(&personagem1, &varPersonagem1);
+        doTheCtrl(&ctrlPersonagem1, &varPersonagem1, &handPersonagem1, contWhile);
+        acelObj(&varPersonagem1, contWhile);
+        velObj(&personagem1.x, &personagem1.y, &varPersonagem1.vX, &varPersonagem1.vY);
+
+        // personagem 2
+        collRectWall(&personagem2, &varPersonagem2);
+        doTheCtrl(&ctrlPersonagem2, &varPersonagem2, &handPersonagem2, contWhile);
+        acelObj(&varPersonagem2, contWhile);
+        velObj(&personagem2.x, &personagem2.y, &varPersonagem2.vX, &varPersonagem2.vY);
+
+        //inimigo1:
+        collEnemyWall(&inimigo1, &rotaInimigo1, &varInimigo1);
+        velObj(&inimigo1.x, &inimigo1.y, &varInimigo1.vX, &varInimigo1.vY);
+
+        //inimigo2:
+        collEnemyWall(&inimigo2, &rotaInimigo2, &varInimigo2);
+        velObj(&inimigo2.x, &inimigo2.y, &varInimigo2.vX, &varInimigo2.vY);
+
+        //inimigo3:
+        collRectWall(&inimigo3, &varInimigo3);
+        velObj(&inimigo3.x, &inimigo3.y, &varInimigo3.vX, &varInimigo3.vY);
+        //-----------------------
+
+        //verifica se passou um segundo desde o ultimo registro do tempo:
+        if (SDL_GetTicks() - contador >= 1000) {
+            // gambiarra:
+            tempo += 2;
+            //atualiza o tempo, destroi a tempoTexture, atualiza o contador e retorna uma texture com o tempo atualizado:
+            tempoTexture = atualizaTempoMostrado(&tempo, tempoTexture, &contador, &tempoColor, &tempoRect);
+        }
+
+        //atualiza o contWhile
+        atualizaContWhile(&contWhile, 16); //O segundo argumento recebe o (MMC(todos os freqAcel e freqCtrl) + 1)
+        //delay pra controlar a velocidade de atualização da tela:
+        SDL_Delay(20);
+    }
+    //-----------------
+    SDL_DestroyTexture(tempoTexture);
+    SDL_DestroyTexture(fundoTexture);
+    SDL_DestroyTexture(inimigoTexture);
+    SDL_DestroyTexture(personagem1Texture);
+    SDL_DestroyTexture(personagem2Texture);
+    free(event);
+}

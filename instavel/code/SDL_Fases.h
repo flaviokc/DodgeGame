@@ -22,6 +22,7 @@
     void faseTematica5();
     void faseTematica6();
     void faseTematica7();
-    void faseTematica8();
+    // multiplayer:
+    void faseMulti ();
 
 #endif
