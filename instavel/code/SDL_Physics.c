@@ -87,42 +87,6 @@ void ctrlObj(SDL_Event* event, Ctrl* ctrlObj){
     }
 }
 
-//pega os comandos para o objeto extra:
-void ctrlExtra(SDL_Event* event, Ctrl* ctrlObj){
-
-    if (event->type == SDL_KEYDOWN) {
-        switch (event->key.keysym.sym) {
-            case SDLK_a:
-                ctrlObj->left = true;
-            break;
-            case SDLK_d:
-                ctrlObj->right = true;
-            break;
-            case SDLK_s:
-                ctrlObj->down = true;
-            break;
-            case SDLK_w:
-                ctrlObj->up = true;
-            break;
-        }
-    } else if (event->type == SDL_KEYUP) {
-        switch (event->key.keysym.sym) {
-            case SDLK_a:
-                ctrlObj->left = false;
-            break;
-            case SDLK_d:
-                ctrlObj->right = false;
-            break;
-            case SDLK_s:
-                ctrlObj->down = false;
-            break;
-            case SDLK_w:
-                ctrlObj->up = false;
-            break;
-        }
-    }
-}
-
 //verifica se duas circunferências se intersectam: (flavio)
 bool coll2Circles(SDL_Rect* rect1, SDL_Rect* rect2) {
     int dX = (rect2->x + (rect2->w)/2 - (rect1->x + (rect1->w)/2));
