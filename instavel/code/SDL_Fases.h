@@ -11,18 +11,19 @@
     void fasebug();
 
     //Tutorial:
-    void faseTutorial1();
-    void faseTutorial2();
-    void faseTutorial3();
+    int faseTutorial1();
+    int faseTutorial2();
+    int faseTutorial3();
     //Tematicas:
-    void faseTematica1();
-    void faseTematica2();
-    void faseTematica3();
-    void faseTematica4();
-    void faseTematica5();
-    void faseTematica6();
-    void faseTematica7();
+    int faseTematica1();
+    int faseTematica2();
+    int faseTematica3();
+    int faseTematica4();
+    int faseTematica5();
+    int faseTematica6();
+    int faseTematica7();
+    int faseTematica8();
     // multiplayer:
-    void faseMulti ();
+    int faseMulti();
 
 #endif
