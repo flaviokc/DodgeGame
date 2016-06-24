@@ -9,7 +9,9 @@
 
 //modos:
 void historia();
+void tutorial(float* angulo);
 void menuInicial();
+void ganhou(int fase);
 
 //menu
 int main (int argc, char* args[]) {
@@ -52,7 +54,7 @@ void hoverRect (SDL_Rect* rect, bool* hover, int x, int y, int varX, int varY) {
     }
 }
 
-void transicao() {
+void transicao () {
     SDL_Rect tudo = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
 
     int alfa = 0;
@@ -117,6 +119,9 @@ void menuInicial() {
                 if (collRectPoint(&bHistoriaRect, x, y)) {
                     transicao();
                     historia();
+                } else if (collRectPoint(&bTutorialRect, x, y)) {
+                    transicao();
+                    tutorial(&angulo);
                 }
             }
             // movimento do mouse
@@ -172,7 +177,83 @@ void menuInicial() {
     SDL_DestroyTexture(bMultiTexture);
     SDL_DestroyTexture(personagem1Texture);
     SDL_DestroyTexture(personagem2Texture);
-    free(event);
+}
+
+void tutorial(float* angulo) {
+    // VARIAVEIS
+    SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
+    bool running = true;
+    int x, y;
+
+    // ANIMAÇAO DO TITULO
+    float variacaoAngulo = 0.30;
+
+    // TEXTURAS
+    SDL_Texture* tituloTexture = carregarImagem("./media/menu/m1.png");
+    SDL_Texture* tuto1Texture = carregarImagem("./media/menu/tuto1.png");
+    SDL_Texture* tuto2Texture = carregarImagem("./media/menu/tuto2.png");
+    SDL_Texture* tuto3Texture = carregarImagem("./media/menu/tuto3.png");
+
+    // RECTS
+    SDL_Rect tituloRect = {150, 50, 700, 125};
+    SDL_Rect tuto1Rect = {200, 225, 600, 120};
+    SDL_Rect tuto2Rect = {200, 370, 600, 120};
+    SDL_Rect tuto3Rect = {200, 515, 600, 120};
+
+    // BOOLS
+    bool tuto1Hover = false;
+    bool tuto2Hover = false;
+    bool tuto3Hover = false;
+
+    while(running){
+        //verifica os eventos:
+        while(SDL_PollEvent(event)){
+            //fechar janela
+            closeWindow(event, &running);
+            // clique do mouse
+            if (event->type == SDL_MOUSEBUTTONDOWN) {
+                SDL_GetMouseState(&x, &y);
+                if (collRectPoint(&tuto1Rect, x, y)) {
+                    faseTutorial1();
+                } else if (collRectPoint(&tuto2Rect, x, y)) {
+                    faseTutorial2();
+                } else if (collRectPoint(&tuto3Rect, x, y)) {
+                    faseTutorial3();
+                }
+            }
+            // movimento do mouse
+            if (event->type == SDL_MOUSEMOTION) {
+                SDL_GetMouseState(&x, &y);
+                hoverRect(&tuto1Rect, &tuto1Hover, x, y, 60, 12);
+                hoverRect(&tuto2Rect, &tuto2Hover, x, y, 60, 12);
+                hoverRect(&tuto3Rect, &tuto3Hover, x, y, 60, 12);
+            }
+        }
+
+        // atualiza o angulo
+        *angulo += variacaoAngulo;
+        if (*angulo > 8 || *angulo < -8) {
+            variacaoAngulo *= -1;
+        }
+
+        // pinta o fundo
+        SDL_SetRenderDrawColor(gRenderer, 255, 222, 129, 255);
+        SDL_RenderClear(gRenderer);
+
+        // imprime os botões
+        SDL_RenderCopyEx(gRenderer, tituloTexture, 0, &tituloRect, *angulo, 0, 0);
+        SDL_RenderCopy(gRenderer, tuto1Texture, 0, &tuto1Rect);
+        SDL_RenderCopy(gRenderer, tuto2Texture, 0, &tuto2Rect);
+        SDL_RenderCopy(gRenderer, tuto3Texture, 0, &tuto3Rect);
+
+        SDL_RenderPresent(gRenderer);
+
+        SDL_Delay(20);
+    }
+    // elimina as texturas
+    SDL_DestroyTexture(tuto1Texture);
+    SDL_DestroyTexture(tuto2Texture);
+    SDL_DestroyTexture(tuto3Texture);
 }
 
 //menu do modo historia:
@@ -190,7 +271,7 @@ void historia(){
     int i;
     char nome[30];
     for (i = 0; i < 9; i++) {
-        sprintf(nome, "./media/thumbnails/fase%d.png", i+1);
+        sprintf(nome, "./media/thumbs/fase%d.png", i+1);
         textures[i] = carregarImagem(nome);
         SDL_SetTextureBlendMode(textures[i], SDL_BLENDMODE_BLEND);
         SDL_SetTextureAlphaMod(textures[i], 0);
@@ -211,9 +292,16 @@ void historia(){
             // clique do mouse
             if (event->type == SDL_MOUSEBUTTONDOWN) {
                 SDL_GetMouseState(&x, &y);
-                if (collRectPoint(&rects[0], x, y)) {
-                    transicao();
-                    faseTematica8();
+                for (i = 0; i < 9; i++) {
+                    if (collRectPoint(&rects[i], x, y)) {
+                        //ABRE fase
+                        int valor;
+                        if (valor < 0) {
+                            salvar(valor);
+
+                        }
+                        break;
+                    }
                 }
             }
             // movimento do mouse
@@ -225,7 +313,7 @@ void historia(){
             }
         }
 
-        if (animacao < 10*9) {
+        if (animacao < 10*5) {
             SDL_SetTextureAlphaMod(textures[animacao/10], (animacao%10*255)/9);
             animacao++;
         }
@@ -247,6 +335,5 @@ void historia(){
     //fasebug();
     //faseExemplo();
     //faseTutorial3();
-    //faseTematica3();
-    free(event);
+    //faseTematica1();
 }
