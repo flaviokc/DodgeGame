@@ -17,3 +17,4 @@ Lista de desejos:
 -colocar a fase da kelly no meio ou final.
 -colisao entre personagens multiplayer
 -quando começar a fase trocar de musica mais sutilmente (esmaecer)
+-trocar a musica do slash
