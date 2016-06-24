@@ -19,7 +19,7 @@
     void closeWindow(SDL_Event* event, bool* running);
     //close sdl
     void quit();// carrega uma imagem e retorna a textura criada (cesar)
-    SDL_Texture* carregarImagem (SDL_Renderer* renderer, char *arquivo);
+    SDL_Texture* carregarImagem (char *arquivo);
     //gera a textura com o tempo recebido e corrige a posicao: (cesar)
     SDL_Texture* criarTexture(int tempo, SDL_Color cor, SDL_Rect* rect);
     //atualiza o tempo, destroi a tempoTexture, atualiza o contador e retorna uma texture com o tempo atualizado:

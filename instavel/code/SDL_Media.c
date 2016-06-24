@@ -71,7 +71,7 @@ bool init() {
 }
 
 // carrega uma imagem e retorna a textura criada
-SDL_Texture* carregarImagem (SDL_Renderer* renderer, char *arquivo) {
+SDL_Texture* carregarImagem (char *arquivo) {
     // textura que será retornada
     SDL_Texture *resultado = NULL;
 
@@ -83,7 +83,7 @@ SDL_Texture* carregarImagem (SDL_Renderer* renderer, char *arquivo) {
         printf("Nao foi possivel carregar a imagem %s, erro: %s", arquivo, IMG_GetError());
     } else {
         // cria a otimizada, que sera mais rapida para o renderer varias vezes
-        resultado = SDL_CreateTextureFromSurface(renderer, carregada);
+        resultado = SDL_CreateTextureFromSurface(gRenderer, carregada);
 
         // verifica
         if (resultado == NULL) {

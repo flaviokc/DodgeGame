@@ -16,5 +16,7 @@
     void faseTutorial3();
     //Tematicas:
     void faseTematica1();
+    void faseTematica2();
+    void faseTematica3();
 
 #endif
