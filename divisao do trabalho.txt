@@ -1,10 +1,17 @@
+Principal:
 flavio:
-continuar a fazer as fases.
+-continuar a fazer as fases.
 
 cesar:
-colocar a arte em uma fase.
-fazer os menus.
+-colocar a arte em uma fase. V
+-fazer os menus.
 
 adilson:
-fazer menus.
-layout menus.
+-fazer menus.
+-layout menus.
+//----------------------
+
+Lista de desejos:
+(coisas pra fazer apos ter feito o principal).
+
+-colocar a fase da kelly no meio ou final.
