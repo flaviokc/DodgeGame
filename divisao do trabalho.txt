@@ -15,3 +15,4 @@ Lista de desejos:
 (coisas pra fazer apos ter feito o principal).
 
 -colocar a fase da kelly no meio ou final.
+-colisao entre personagens multiplayer
