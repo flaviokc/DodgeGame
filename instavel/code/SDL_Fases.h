@@ -18,5 +18,9 @@
     void faseTematica1();
     void faseTematica2();
     void faseTematica3();
+    void faseTematica4();
+    void faseTematica5();
+    void faseTematica6();
+    void faseTematica7();
 
 #endif
