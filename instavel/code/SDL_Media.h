@@ -26,4 +26,7 @@
     SDL_Texture* atualizaTempoMostrado(int* tempoRestante, SDL_Texture* tempoTexture, int* contador, SDL_Color *tempoColor, SDL_Rect *tempoRect);
     //carrega e toca a musica:
     void play_Music(char path[]);
+    // para o arquivo:
+    void salvar (int numero);
+    int ler();
 #endif

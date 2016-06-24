@@ -11,6 +11,8 @@ SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
 //Fonte TTF para textos:
 TTF_Font* fonte = NULL;
+//nome do arquivo
+char nome[] = "save.txt";
 
 //initialize sdl:
 bool init() {
@@ -121,6 +123,22 @@ void quit() {
     TTF_Quit();
     Mix_Quit();
     SDL_Quit();
+}
+
+void salvar (int numero) {
+    FILE* arquivo = fopen(nome, "w");
+    fprintf("%d\n", numero);
+    fclose(arquivo);
+}
+
+int ler () {
+    int resposta;
+
+    FILE* arquivo = fopen(nome, "r");
+    fscanf(arquivo, "%d", resposta);
+    fclose(arquivo);
+
+    return resposta;
 }
 
 //carrega e toca a musica: (passar para o main)
