@@ -208,7 +208,7 @@ void faseExemplo(){
     free(event);
 }
 
-void faseTutorial1(){
+int faseTutorial1(){
     //tutorial1
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -308,9 +308,11 @@ void faseTutorial1(){
     SDL_DestroyTexture(inimigoTexture);
     SDL_DestroyTexture(personagemTexture);
     free(event);
+
+    return tempoRestante;
 }
 
-void faseTutorial2(){
+int faseTutorial2(){
     //tutorial2
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -410,9 +412,11 @@ void faseTutorial2(){
     SDL_DestroyTexture(inimigoTexture);
     SDL_DestroyTexture(personagemTexture);
     free(event);
+
+    return tempoRestante;
 }
 
-void faseTutorial3(){
+int faseTutorial3(){
     //tutorial3
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -537,10 +541,11 @@ void faseTutorial3(){
     SDL_DestroyTexture(inimigoTexture);
     SDL_DestroyTexture(personagemTexture);
     free(event);
+    return tempoRestante;
 }
 
 //quando a fase receber o tema pode trocar o nome da funcao.
-void faseTematica1(){
+int faseTematica6(){
     //tematica1
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -693,7 +698,7 @@ void faseTematica1(){
     free(event);
 }
 
-void faseTematica5(){
+int faseTematica7(){
     //tematica5
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -799,7 +804,7 @@ void faseTematica5(){
 }
 
 //slash
-void faseTematica3(){
+int faseTematica1(){
     //tematica3
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -916,10 +921,12 @@ void faseTematica3(){
     SDL_DestroyTexture(inimigo2Texture);
     SDL_DestroyTexture(personagemTexture);
     free(event);
+
+    return tempoRestante;
 }
 
-//fica pro batman
-void faseTematica4(){
+//batman
+int faseTematica2(){
     //tematica4
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -928,9 +935,11 @@ void faseTematica4(){
     int tantoFaz = 0; //use para parametros q tanto fazem
 
     //TEXTURAS
-    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/pokemon_comp.jpg");
-    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/pikachu.png");
-    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/pokebola.png");
+    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/cidade_batman.png");
+    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/batman.png");
+    SDL_Texture* inimigo1Texture = carregarImagem("./media/skins/player/superman.png");
+    SDL_Texture* inimigo2Texture = carregarImagem("./media/skins/enemy/apocalipse.png");
+    SDL_Texture* inimigo3Texture = carregarImagem("./media/skins/enemy/coringa.png");
 
     //TEMPO
     int tempoRestante = 30; //duração da fase em segundos
@@ -989,13 +998,13 @@ void faseTematica4(){
         SDL_RenderCopy(gRenderer, personagemTexture, 0, &personagem);
 
         //print inimigo1:
-        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo1);
+        SDL_RenderCopy(gRenderer, inimigo1Texture, 0, &inimigo1);
 
         //print inimigo2:
-        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo2);
+        SDL_RenderCopy(gRenderer, inimigo2Texture, 0, &inimigo2);
 
         //print inimigo3:
-        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo3);
+        SDL_RenderCopy(gRenderer, inimigo3Texture, 0, &inimigo3);
 
         //atualiza a tela:
         SDL_RenderPresent(gRenderer);
@@ -1042,12 +1051,16 @@ void faseTematica4(){
     //-----------------
     SDL_DestroyTexture(tempoTexture);
     SDL_DestroyTexture(fundoTexture);
-    SDL_DestroyTexture(inimigoTexture);
+    SDL_DestroyTexture(inimigo1Texture);
+    SDL_DestroyTexture(inimigo2Texture);
+    SDL_DestroyTexture(inimigo3Texture);
     SDL_DestroyTexture(personagemTexture);
     free(event);
+
+    return tempoRestante;
 }
 
-void faseTematica7(){
+int faseTematica8(){
     //tematica7
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -1194,7 +1207,7 @@ void faseTematica7(){
 }
 
 //kelly
-void faseTematica2(){
+int faseTematica3(){
     //tematica2
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -1326,9 +1339,12 @@ void faseTematica2(){
     SDL_DestroyTexture(inimigo2Texture);
     SDL_DestroyTexture(personagemTexture);
     free(event);
+
+    return tempoRestante;
 }
 
-void faseTematica6(){
+//deadpool
+int faseTematica4(){
     //tematica6
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -1337,9 +1353,9 @@ void faseTematica6(){
     int tantoFaz = 0; //use para parametros q tanto fazem
 
     //TEXTURAS
-    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/pokemon_comp.jpg");
-    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/pikachu.png");
-    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/pokebola.png");
+    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/cidade_deadpool.png");
+    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/deadpool.png");
+    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/bacteria.png");
 
     //TEMPO
     int tempoRestante = 20; //duração da fase em segundos
@@ -1467,10 +1483,12 @@ void faseTematica6(){
     SDL_DestroyTexture(inimigoTexture);
     SDL_DestroyTexture(personagemTexture);
     free(event);
+
+    return tempoRestante;
 }
 
-//deadpool
-void faseTematica8(){
+//pikachu
+int faseTematica5(){
     //tematica8
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -1479,9 +1497,9 @@ void faseTematica8(){
     int tantoFaz = 0; //use para parametros q tanto fazem
 
     //TEXTURAS
-    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/cidade_deadpool.png");
-    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/deadpool.png");
-    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/bacteria.png");
+    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/pokemon.jpg");
+    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/pikachu.png");
+    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/pokebola.png");
 
     //TEMPO
     int tempoRestante = 20; //duração da fase em segundos
@@ -1637,9 +1655,11 @@ void faseTematica8(){
     SDL_DestroyTexture(inimigoTexture);
     SDL_DestroyTexture(personagemTexture);
     free(event);
+
+    return tempoRestante;
 }
 
-void faseMulti () {
+int faseMulti() {
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
     bool running = true; //mantem o laço principal rodando
