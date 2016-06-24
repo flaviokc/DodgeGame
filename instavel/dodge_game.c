@@ -52,7 +52,7 @@ void hoverRect (SDL_Rect* rect, bool* hover, int x, int y, int varX, int varY) {
     }
 }
 
-void transicao () {
+void transicao() {
     SDL_Rect tudo = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
 
     int alfa = 0;
@@ -172,6 +172,7 @@ void menuInicial() {
     SDL_DestroyTexture(bMultiTexture);
     SDL_DestroyTexture(personagem1Texture);
     SDL_DestroyTexture(personagem2Texture);
+    free(event);
 }
 
 //menu do modo historia:
@@ -189,7 +190,7 @@ void historia(){
     int i;
     char nome[30];
     for (i = 0; i < 9; i++) {
-        sprintf(nome, "./media/thumbs/fase%d.png", i+1);
+        sprintf(nome, "./media/thumbnails/fase%d.png", i+1);
         textures[i] = carregarImagem(nome);
         SDL_SetTextureBlendMode(textures[i], SDL_BLENDMODE_BLEND);
         SDL_SetTextureAlphaMod(textures[i], 0);
@@ -246,5 +247,6 @@ void historia(){
     //fasebug();
     //faseExemplo();
     //faseTutorial3();
-    //faseTematica1();
+    //faseTematica3();
+    free(event);
 }
