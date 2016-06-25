@@ -209,6 +209,7 @@ void faseExemplo(){
 }
 
 int faseTutorial1(){
+
     //tutorial1
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -220,6 +221,9 @@ int faseTutorial1(){
     SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/tutorial.png");
     SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/blacksheep.png");
     SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/porca.png");
+
+    //MUSICA
+    play_Music("./media/songs/Just_Like_Fire.ogg");
 
     //TEMPO
     int tempoRestante = 20; //duração da fase em segundos
@@ -325,6 +329,9 @@ int faseTutorial2(){
     SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/blacksheep.png");
     SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/porca.png");
 
+    //MUSICA
+    play_Music("./media/songs/All_About_That_Bass.ogg");
+
     //TEMPO
     int tempoRestante = 20; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
@@ -428,6 +435,9 @@ int faseTutorial3(){
     SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/tutorial.png");
     SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/blacksheep.png");
     SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/porca.png");
+
+    //MUSICA
+    play_Music("./media/songs/Shake_It_Off.ogg");
 
     //TEMPO
     int tempoRestante = 20; //duração da fase em segundos
@@ -545,7 +555,8 @@ int faseTutorial3(){
 }
 
 //quando a fase receber o tema pode trocar o nome da funcao.
-int faseTematica6(){
+//natal
+int faseTematica1(){
     //tematica1
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -554,9 +565,12 @@ int faseTematica6(){
     int tantoFaz = 0; //use para parametros q tanto fazem
 
     //TEXTURAS
-    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/pokemon.jpg");
-    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/pikachu.png");
-    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/pokebola.png");
+    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/natal.png");
+    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/papai noel.png");
+    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/goblin.png");
+
+    //MUSICA
+    play_Music("./media/songs/Still_Into_You.ogg");
 
     //TEMPO
     int tempoRestante = 30; //duração da fase em segundos
@@ -698,7 +712,8 @@ int faseTematica6(){
     free(event);
 }
 
-int faseTematica7(){
+//marinheiro
+int faseTematica5(){
     //tematica5
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -707,9 +722,12 @@ int faseTematica7(){
     int tantoFaz = 0; //use para parametros q tanto fazem
 
     //TEXTURAS
-    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/rock.png");
-    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/slash.png");
-    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/inimigorock2.png");
+    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/mar2.png");
+    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/marinheiro.png");
+    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/bacteria.png");
+
+    //MUSICA
+    play_Music("./media/songs/See_You_Again.ogg");
 
     //TEMPO
     int tempoRestante = 20; //duração da fase em segundos
@@ -804,7 +822,7 @@ int faseTematica7(){
 }
 
 //slash
-int faseTematica1(){
+int faseTematica3(){
     //tematica3
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -817,6 +835,9 @@ int faseTematica1(){
     SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/slash.png");
     SDL_Texture* inimigo1Texture = carregarImagem("./media/skins/enemy/inimigorock2.png");
     SDL_Texture* inimigo2Texture = carregarImagem("./media/skins/enemy/inimigorock1.png");
+
+    //MUSICA
+    play_Music("./media/songs/Smells_Like_Teen_Spirit.ogg");
 
     //TEMPO
     int tempoRestante = 20; //duração da fase em segundos
@@ -926,7 +947,7 @@ int faseTematica1(){
 }
 
 //batman
-int faseTematica2(){
+int faseTematica4(){
     //tematica4
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -940,6 +961,9 @@ int faseTematica2(){
     SDL_Texture* inimigo1Texture = carregarImagem("./media/skins/player/superman.png");
     SDL_Texture* inimigo2Texture = carregarImagem("./media/skins/enemy/apocalipse.png");
     SDL_Texture* inimigo3Texture = carregarImagem("./media/skins/enemy/coringa.png");
+
+    //MUSICA
+    play_Music("./media/songs/Confident.ogg");
 
     //TEMPO
     int tempoRestante = 30; //duração da fase em segundos
@@ -1060,7 +1084,8 @@ int faseTematica2(){
     return tempoRestante;
 }
 
-int faseTematica8(){
+//militar
+int faseTematica7(){
     //tematica7
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -1069,9 +1094,12 @@ int faseTematica8(){
     int tantoFaz = 0; //use para parametros q tanto fazem
 
     //TEXTURAS
-    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/pokemon_comp.jpg");
-    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/pikachu.png");
-    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/pokebola.png");
+    SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/tanque.png");
+    SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/militar.png");
+    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/nazista.png");
+
+    //MUSICA
+    play_Music("./media/songs/California_Gurls.ogg");
 
     //TEMPO
     int tempoRestante = 20; //duração da fase em segundos
@@ -1207,7 +1235,7 @@ int faseTematica8(){
 }
 
 //kelly
-int faseTematica3(){
+int faseTematica2(){
     //tematica2
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -1220,6 +1248,9 @@ int faseTematica3(){
     SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/kelly.png");
     SDL_Texture* inimigo1Texture = carregarImagem("./media/skins/enemy/inimigokelly2.png");
     SDL_Texture* inimigo2Texture = carregarImagem("./media/skins/enemy/inimigokelly1.png");
+
+    //MUSICA
+    play_Music("./media/songs/My_Life_Would_Suck_Without_You.ogg");
 
     //TEMPO
     int tempoRestante = 20; //duração da fase em segundos
@@ -1344,7 +1375,7 @@ int faseTematica3(){
 }
 
 //deadpool
-int faseTematica4(){
+int faseTematica6(){
     //tematica6
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -1356,6 +1387,9 @@ int faseTematica4(){
     SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/cidade_deadpool.png");
     SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/deadpool.png");
     SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/bacteria.png");
+
+    //MUSICA
+    play_Music("./media/songs/I_Kissed_A_Girl.ogg");
 
     //TEMPO
     int tempoRestante = 20; //duração da fase em segundos
@@ -1488,7 +1522,7 @@ int faseTematica4(){
 }
 
 //pikachu
-int faseTematica5(){
+int faseTematica8(){
     //tematica8
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -1500,6 +1534,9 @@ int faseTematica5(){
     SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/pokemon.jpg");
     SDL_Texture* personagemTexture = carregarImagem("./media/skins/player/pikachu.png");
     SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/pokebola.png");
+
+    //MUSICA
+    play_Music("./media/songs/Pokemon_Theme.ogg");
 
     //TEMPO
     int tempoRestante = 20; //duração da fase em segundos
@@ -1659,7 +1696,7 @@ int faseTematica5(){
     return tempoRestante;
 }
 
-int faseMulti() {
+int faseMulti(){
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
     bool running = true; //mantem o laço principal rodando
@@ -1669,8 +1706,12 @@ int faseMulti() {
     //TEXTURAS
     SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/cidade_batman.png");
     SDL_Texture* personagem1Texture = carregarImagem("./media/skins/player/batman.png");
-    SDL_Texture* personagem2Texture = carregarImagem("./media/skins/player/Superman.png");
-    SDL_Texture* inimigoTexture = carregarImagem("./media/skins/enemy/apocalipse.png");
+    SDL_Texture* personagem2Texture = carregarImagem("./media/skins/player/superman.png");
+    SDL_Texture* inimigo1Texture = carregarImagem("./media/skins/enemy/apocalipse.png");
+    SDL_Texture* inimigo2Texture = carregarImagem("./media/skins/enemy/coringa.png");
+
+    //MUSICA
+    play_Music("./media/songs/Ain't_It_Fun.ogg");
 
     //TEMPO
     int tempo = 0; //duração da fase em segundos
@@ -1691,7 +1732,7 @@ int faseMulti() {
     //-----------------------------------
 
     //personagem2:
-    SDL_Rect personagem2 = {500, 550, 85, 85}; //personagem
+    SDL_Rect personagem2 = {300, 550, 85, 85}; //personagem
     Var varPersonagem2 = {0,0,0,1,3}; //variação do objeto (velocidadeX, velocidadeY, aceleraçãoX, aceleraçãoY, freqAcel)
     Hand handPersonagem2 = {1,1,5}; //struct de controle do objeto (handlingX, handlingY, freqCtrl); "handling == dirigibilidade"
     Ctrl ctrlPersonagem2 = {false, false, false, false}; //struct bool direçoes de controle
@@ -1738,13 +1779,13 @@ int faseMulti() {
         SDL_RenderCopy(gRenderer, personagem2Texture, 0, &personagem2);
 
         //print inimigo1:
-        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo1);
+        SDL_RenderCopy(gRenderer, inimigo2Texture, 0, &inimigo1);
 
         //print inimigo2:
-        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo2);
+        SDL_RenderCopy(gRenderer, inimigo2Texture, 0, &inimigo2);
 
         //print inimigo3:
-        SDL_RenderCopy(gRenderer, inimigoTexture, 0, &inimigo3);
+        SDL_RenderCopy(gRenderer, inimigo1Texture, 0, &inimigo3);
         //-------------------
 
         //atualiza a tela:
@@ -1800,8 +1841,9 @@ int faseMulti() {
     //-----------------
     SDL_DestroyTexture(tempoTexture);
     SDL_DestroyTexture(fundoTexture);
-    SDL_DestroyTexture(inimigoTexture);
     SDL_DestroyTexture(personagem1Texture);
     SDL_DestroyTexture(personagem2Texture);
+    SDL_DestroyTexture(inimigo1Texture);
+    SDL_DestroyTexture(inimigo2Texture);
     free(event);
 }
