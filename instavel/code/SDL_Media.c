@@ -136,6 +136,10 @@ int ler () {
     int resposta;
 
     FILE* arquivo = fopen(nome, "r");
+    if (arquivo == NULL) {
+        printf("\nNenhum arquivo de save encontrado\n");
+        return 0;
+    }
     fscanf(arquivo, "%d", &resposta);
     fclose(arquivo);
 

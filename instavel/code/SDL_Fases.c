@@ -573,7 +573,7 @@ int faseTematica1(){
     play_Music("./media/songs/Still_Into_You.ogg");
 
     //TEMPO
-    int tempoRestante = 3; //duração da fase em segundos
+    int tempoRestante = 30; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
@@ -732,7 +732,7 @@ int faseTematica5(){
     play_Music("./media/songs/See_You_Again.ogg");
 
     //TEMPO
-    int tempoRestante = 2; //duração da fase em segundos
+    int tempoRestante = 20; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
@@ -841,10 +841,10 @@ int faseTematica3(){
     SDL_Texture* inimigo2Texture = carregarImagem("./media/skins/enemy/inimigorock1.png");
 
     //MUSICA
-    play_Music("./media/songs/Smells_Like_Teen_Spirit.ogg");
+    play_Music("./media/songs/Sweet_Child_O_Mine.ogg");
 
     //TEMPO
-    int tempoRestante = 2; //duração da fase em segundos
+    int tempoRestante = 20; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
@@ -970,7 +970,7 @@ int faseTematica4(){
     play_Music("./media/songs/Confident.ogg");
 
     //TEMPO
-    int tempoRestante = 3; //duração da fase em segundos
+    int tempoRestante = 30; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
@@ -1106,7 +1106,7 @@ int faseTematica7(){
     play_Music("./media/songs/California_Gurls.ogg");
 
     //TEMPO
-    int tempoRestante = 2; //duração da fase em segundos
+    int tempoRestante = 20; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
@@ -1259,7 +1259,7 @@ int faseTematica2(){
     play_Music("./media/songs/My_Life_Would_Suck_Without_You.ogg");
 
     //TEMPO
-    int tempoRestante = 2; //duração da fase em segundos
+    int tempoRestante = 20; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
@@ -1398,7 +1398,7 @@ int faseTematica6(){
     play_Music("./media/songs/I_Kissed_A_Girl.ogg");
 
     //TEMPO
-    int tempoRestante = 2; //duração da fase em segundos
+    int tempoRestante = 20; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
@@ -1545,7 +1545,7 @@ int faseTematica8(){
     play_Music("./media/songs/Pokemon_Theme.ogg");
 
     //TEMPO
-    int tempoRestante = 2; //duração da fase em segundos
+    int tempoRestante = 20; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
