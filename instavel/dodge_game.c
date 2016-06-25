@@ -5,10 +5,12 @@
 #include "./code/SDL_Fases.h"
 #include "./code/bool.h"
 
+#define FASES 8
+
 //https://github.com/flaviokc/DodgeGame
 
 //modos:
-void historia();
+bool historia();
 void tutorial(float* angulo);
 void menuInicial();
 void ganhou(int fase);
@@ -19,9 +21,8 @@ int main (int argc, char* args[]) {
     //Start up SDL and create window
     if( !init() ) {
         printf( "Failed to initialize!\n" );
-    }
-    else {
-        play_Music("./media/songs/musica1.ogg"); //carrega e toca a musica:
+    } else {
+        play_Music("./media/songs/All_About_That_Bass.ogg"); //carrega e toca a musica:
 
         //coloquem cada modo dentro de uma função pra dps fazer o menu:
         menuInicial();
@@ -46,11 +47,11 @@ void hoverRect (SDL_Rect* rect, bool* hover, int x, int y, int varX, int varY) {
             *hover = true;
         }
     } else if (*hover) {
-            rect->w -= varX;
-            rect->h -= varY;
-            rect->x += varX/2;
-            rect->y += varY/2;
-            *hover = false;
+        rect->w -= varX;
+        rect->h -= varY;
+        rect->x += varX/2;
+        rect->y += varY/2;
+        *hover = false;
     }
 }
 
@@ -62,7 +63,7 @@ void transicao () {
 
     SDL_SetRenderDrawColor(gRenderer, 255, 222, 129, 50);
 
-    while (alfa < 24) {
+    while (alfa < 20) {
         SDL_SetRenderDrawColor(gRenderer, 255, 222, 129, 10);
         SDL_RenderFillRect(gRenderer, &tudo);
         SDL_RenderPresent(gRenderer);
@@ -108,9 +109,9 @@ void menuInicial() {
     bool bHistoriaHover = false;
     bool bMultiHover = false;
 
-    while(running){
+    while(running) {
         //verifica os eventos:
-        while(SDL_PollEvent(event)){
+        while(SDL_PollEvent(event)) {
             //fechar janela
             closeWindow(event, &running);
             // clique do mouse
@@ -118,10 +119,20 @@ void menuInicial() {
                 SDL_GetMouseState(&x, &y);
                 if (collRectPoint(&bHistoriaRect, x, y)) {
                     transicao();
-                    historia();
+                    while (historia());
+                    transicao();
                 } else if (collRectPoint(&bTutorialRect, x, y)) {
                     transicao();
                     tutorial(&angulo);
+                    transicao();
+                } else if (collRectPoint(&bMultiRect, x, y)) {
+                    transicao();
+                    int resultado = faseMulti();
+                    if (resultado > 0) {
+                        transicao();
+                        ganhou(resultado);
+                    }
+                    transicao();
                 }
             }
             // movimento do mouse
@@ -205,20 +216,26 @@ void tutorial(float* angulo) {
     bool tuto2Hover = false;
     bool tuto3Hover = false;
 
-    while(running){
+    while(running) {
         //verifica os eventos:
-        while(SDL_PollEvent(event)){
+        while(SDL_PollEvent(event)) {
             //fechar janela
             closeWindow(event, &running);
             // clique do mouse
             if (event->type == SDL_MOUSEBUTTONDOWN) {
                 SDL_GetMouseState(&x, &y);
                 if (collRectPoint(&tuto1Rect, x, y)) {
+                    transicao();
                     faseTutorial1();
+                    transicao();
                 } else if (collRectPoint(&tuto2Rect, x, y)) {
+                    transicao();
                     faseTutorial2();
+                    transicao();
                 } else if (collRectPoint(&tuto3Rect, x, y)) {
+                    transicao();
                     faseTutorial3();
+                    transicao();
                 }
             }
             // movimento do mouse
@@ -256,22 +273,123 @@ void tutorial(float* angulo) {
     SDL_DestroyTexture(tuto3Texture);
 }
 
-//menu do modo historia:
-void historia(){
+int faseNumero (int i) {
+    switch (i) {
+    case 0:
+        return faseTematica1();
+    case 1:
+        return faseTematica5();
+    case 2:
+        return faseTematica3();
+    case 3:
+        return faseTematica4();
+    case 4:
+        return faseTematica7();
+    case 5:
+        return faseTematica2();
+    case 6:
+        return faseTematica6();
+    case 7:
+        return faseTematica8();
+    default:
+        return 0;
+    }
+}
+
+SDL_Texture* personagem (int i) {
+    switch (i) {
+    case 0:
+        return carregarImagem("./media/skins/player/papai noel.png");
+    case 1:
+        return carregarImagem("./media/skins/player/marinheiro.png");
+    case 2:
+        return carregarImagem("./media/skins/player/slash.png");
+    case 3:
+        return carregarImagem("./media/skins/player/batman.png");
+    case 4:
+        return carregarImagem("./media/skins/player/militar.png");
+    case 5:
+        return carregarImagem("./media/skins/player/kelly.png");
+    case 6:
+        return carregarImagem("./media/skins/player/deadpool.png");
+    case 7:
+        return carregarImagem("./media/skins/player/pikachu.png");
+    case 8:
+        return carregarImagem("./media/skins/player/superman.png");
+    default:
+        return NULL;
+    }
+}
+
+void ganhou(int fase) {
+    // variaveis
+    SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
+    bool running = true;
+
+    // TEXTURAS
+    SDL_Texture* ganhouTexture = carregarImagem("./media/menu/final.png");
+    SDL_Texture* personagemTexture = personagem(fase);
+
+    // RECTS
+    SDL_Rect ganhouRect = {50, 50, 900, 630};
+    SDL_Rect personagem = {425, 300, 150, 150};
+
+    // ANIMAÇAO DO PERSONAGEM
+    float angulo = -8;
+    float variacaoAngulo = 0.30;
+
+    int x, y;
+    int animacao = 0;
+    while(running) {
+        //verifica os eventos:
+        while(SDL_PollEvent(event)) {
+            //fechar janela
+            closeWindow(event, &running);
+            // clique do mouse
+            if (event->type == SDL_MOUSEBUTTONDOWN) {
+                running = false;
+            }
+        }
+
+        // atualiza o angulo
+        angulo += variacaoAngulo;
+        if (angulo > 8 || angulo < -8) {
+            variacaoAngulo *= -1;
+        }
+
+        // pinta o fundo
+        SDL_SetRenderDrawColor(gRenderer, 255, 222, 129, 255);
+        SDL_RenderClear(gRenderer);
+
+        SDL_RenderCopy(gRenderer, ganhouTexture, 0, &ganhouRect);
+        SDL_RenderCopyEx(gRenderer, personagemTexture, 0, &personagem, angulo, 0, 0);
+
+        SDL_RenderPresent(gRenderer);
+
+        SDL_Delay(20);
+    }
+    transicao();
+}
+
+// return true se precisa ser chamada de novo
+int historia() {
 
     // variaveis
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
     bool running = true;
 
+    // ultima fase carregada
+    int ultima = ler() + 1;
+
     // cria vetores de texture e rect para todas imagens
-    SDL_Texture* textures[9];
-    SDL_Rect rects[9];
-    bool hover[9];
+    SDL_Texture* textures[ultima];
+    SDL_Rect rects[ultima];
+    bool hover[ultima];
 
     int i;
     char nome[30];
-    for (i = 0; i < 9; i++) {
-        sprintf(nome, "./media/thumbs/fase%d.png", i+1);
+    for (i = 0; i < ultima; i++) {
+        sprintf(nome, "./media/thumbs/0%dfase.png", i+1);
         textures[i] = carregarImagem(nome);
         SDL_SetTextureBlendMode(textures[i], SDL_BLENDMODE_BLEND);
         SDL_SetTextureAlphaMod(textures[i], 0);
@@ -284,21 +402,26 @@ void historia(){
 
     int x, y;
     int animacao = 0;
-    while(running){
+    while(running) {
         //verifica os eventos:
-        while(SDL_PollEvent(event)){
+        while(SDL_PollEvent(event)) {
             //fechar janela
             closeWindow(event, &running);
             // clique do mouse
             if (event->type == SDL_MOUSEBUTTONDOWN) {
                 SDL_GetMouseState(&x, &y);
-                for (i = 0; i < 9; i++) {
+                for (i = 0; i < ultima; i++) {
                     if (collRectPoint(&rects[i], x, y)) {
                         //ABRE fase
-                        int valor;
+                        transicao();
+                        int valor = faseNumero(i);
+                        transicao();
                         if (valor < 0) {
-                            salvar(valor);
-
+                            ganhou(i);
+                            if (i >= ultima-1 && i+1 < FASES) {
+                                salvar(i+1);
+                                return true;
+                            }
                         }
                         break;
                     }
@@ -307,13 +430,13 @@ void historia(){
             // movimento do mouse
             if (event->type == SDL_MOUSEMOTION) {
                 SDL_GetMouseState(&x, &y);
-                for (i = 0; i < 9; i++) {
+                for (i = 0; i < ultima; i++) {
                     hoverRect(&rects[i], &hover[i], x, y, 20, 20);
                 }
             }
         }
 
-        if (animacao < 10*5) {
+        if (animacao < 10*ultima) {
             SDL_SetTextureAlphaMod(textures[animacao/10], (animacao%10*255)/9);
             animacao++;
         }
@@ -323,7 +446,7 @@ void historia(){
         SDL_RenderClear(gRenderer);
 
         // imprime todas imagens
-        for (i = 0; i < 9; i++) {
+        for (i = 0; i < ultima; i++) {
             SDL_RenderCopy(gRenderer, textures[i], 0, &rects[i]);
         }
 
@@ -332,8 +455,5 @@ void historia(){
         SDL_Delay(20);
     }
     transicao();
-    //fasebug();
-    //faseExemplo();
-    //faseTutorial3();
-    //faseTematica1();
+    return false;
 }

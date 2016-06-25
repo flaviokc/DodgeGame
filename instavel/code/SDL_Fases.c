@@ -573,7 +573,7 @@ int faseTematica1(){
     play_Music("./media/songs/Still_Into_You.ogg");
 
     //TEMPO
-    int tempoRestante = 30; //duração da fase em segundos
+    int tempoRestante = 3; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
@@ -710,10 +710,12 @@ int faseTematica1(){
     SDL_DestroyTexture(inimigoTexture);
     SDL_DestroyTexture(personagemTexture);
     free(event);
+
+    return tempoRestante;
 }
 
 //marinheiro
-int faseTematica2(){
+int faseTematica5(){
     //tematica5
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -730,7 +732,7 @@ int faseTematica2(){
     play_Music("./media/songs/See_You_Again.ogg");
 
     //TEMPO
-    int tempoRestante = 20; //duração da fase em segundos
+    int tempoRestante = 2; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
@@ -819,6 +821,8 @@ int faseTematica2(){
     SDL_DestroyTexture(inimigoTexture);
     SDL_DestroyTexture(personagemTexture);
     free(event);
+
+    return tempoRestante;
 }
 
 //slash
@@ -840,7 +844,7 @@ int faseTematica3(){
     play_Music("./media/songs/Smells_Like_Teen_Spirit.ogg");
 
     //TEMPO
-    int tempoRestante = 20; //duração da fase em segundos
+    int tempoRestante = 2; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
@@ -966,7 +970,7 @@ int faseTematica4(){
     play_Music("./media/songs/Confident.ogg");
 
     //TEMPO
-    int tempoRestante = 30; //duração da fase em segundos
+    int tempoRestante = 3; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
@@ -1085,7 +1089,7 @@ int faseTematica4(){
 }
 
 //militar
-int faseTematica5(){
+int faseTematica7(){
     //tematica7
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -1102,7 +1106,7 @@ int faseTematica5(){
     play_Music("./media/songs/California_Gurls.ogg");
 
     //TEMPO
-    int tempoRestante = 20; //duração da fase em segundos
+    int tempoRestante = 2; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
@@ -1232,10 +1236,12 @@ int faseTematica5(){
     SDL_DestroyTexture(inimigoTexture);
     SDL_DestroyTexture(personagemTexture);
     free(event);
+
+    return tempoRestante;
 }
 
 //kelly
-int faseTematica6(){
+int faseTematica2(){
     //tematica2
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -1253,7 +1259,7 @@ int faseTematica6(){
     play_Music("./media/songs/My_Life_Would_Suck_Without_You.ogg");
 
     //TEMPO
-    int tempoRestante = 20; //duração da fase em segundos
+    int tempoRestante = 2; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
@@ -1375,7 +1381,7 @@ int faseTematica6(){
 }
 
 //deadpool
-int faseTematica7(){
+int faseTematica6(){
     //tematica6
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -1392,7 +1398,7 @@ int faseTematica7(){
     play_Music("./media/songs/I_Kissed_A_Girl.ogg");
 
     //TEMPO
-    int tempoRestante = 20; //duração da fase em segundos
+    int tempoRestante = 2; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
@@ -1539,7 +1545,7 @@ int faseTematica8(){
     play_Music("./media/songs/Pokemon_Theme.ogg");
 
     //TEMPO
-    int tempoRestante = 20; //duração da fase em segundos
+    int tempoRestante = 2; //duração da fase em segundos
     int contador = SDL_GetTicks(); //registra o tempo atual no contador
     SDL_Rect tempoRect = {tantoFaz, 200, tantoFaz, tantoFaz}; //contem a tempoTexture (onde mostra o tempo).
     SDL_Color tempoColor = { 255, 0, 0, 255}; //cor do texto com o tempo
@@ -1702,6 +1708,7 @@ int faseMulti(){
     bool running = true; //mantem o laço principal rodando
     int contWhile = 1; //sempre contWhile = 1;
     int tantoFaz = 0; //use para parametros q tanto fazem
+    int ganhador = 0; // salva quem ganhou
 
     //TEXTURAS
     SDL_Texture* fundoTexture = carregarImagem("./media/backgrounds/cidade_batman.png");
@@ -1795,9 +1802,13 @@ int faseMulti(){
         //INTERACOES FISICAS
 
         //verifica se duas circunferências se intersectam:
-        if(coll2Circles(&personagem1, &inimigo1)||coll2Circles(&personagem1, &inimigo2)||coll2Circles(&personagem1, &inimigo3)||
-                coll2Circles(&personagem2, &inimigo1)||coll2Circles(&personagem2, &inimigo2)||coll2Circles(&personagem2, &inimigo3)) {
+        if(coll2Circles(&personagem1, &inimigo1)||coll2Circles(&personagem1, &inimigo2)||coll2Circles(&personagem1, &inimigo3)) {
             running = false;
+            ganhador = 8;
+        }
+        if(coll2Circles(&personagem2, &inimigo1)||coll2Circles(&personagem2, &inimigo2)||coll2Circles(&personagem2, &inimigo3)) {
+            running = false;
+            ganhador = 3;
         }
 
         //personagem:
@@ -1846,4 +1857,6 @@ int faseMulti(){
     SDL_DestroyTexture(inimigo1Texture);
     SDL_DestroyTexture(inimigo2Texture);
     free(event);
+
+    return ganhador;
 }

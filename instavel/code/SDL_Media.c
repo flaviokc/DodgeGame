@@ -3,6 +3,7 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 #include <SDL_image.h>
+#include <string.h>
 #include "SDL_Media.h"
 #include "bool.h"
 
@@ -13,6 +14,8 @@ SDL_Renderer* gRenderer = NULL;
 TTF_Font* fonte = NULL;
 //nome do arquivo
 char nome[] = "save.txt";
+//caminho da ultima música
+char musicaAnterior[100];
 
 //initialize sdl:
 bool init() {
@@ -23,8 +26,7 @@ bool init() {
     if( SDL_Init( SDL_INIT_EVERYTHING ) < 0 ) {
         printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
         success = false;
-    }
-    else {
+    } else {
         //Create window
         gWindow = SDL_CreateWindow( "Dodge Game",
                                     SDL_WINDOWPOS_UNDEFINED,
@@ -36,11 +38,10 @@ bool init() {
         if( gWindow == NULL ) {
             printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
             success = false;
-        }
-        else {
+        } else {
             //set the renderer:
             gRenderer=SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
-            if(gRenderer == NULL){
+            if(gRenderer == NULL) {
                 printf( "Renderer could not be set! SDL Error: %s\n", SDL_GetError() );
                 success = false;
             }
@@ -100,8 +101,8 @@ SDL_Texture* carregarImagem (char *arquivo) {
 }
 
 //permite que o usuário fecha a janela clicando no X: (flavio)
-void closeWindow(SDL_Event* event, bool* running){
-    if(event->type == SDL_QUIT || (event->type == SDL_KEYDOWN && event->key.keysym.sym == SDLK_ESCAPE)){
+void closeWindow(SDL_Event* event, bool* running) {
+    if(event->type == SDL_QUIT || (event->type == SDL_KEYDOWN && event->key.keysym.sym == SDLK_ESCAPE)) {
         *running = false;
     }
 }
@@ -127,7 +128,7 @@ void quit() {
 
 void salvar (int numero) {
     FILE* arquivo = fopen(nome, "w");
-    fprintf("%d\n", numero);
+    fprintf(arquivo, "%d", numero);
     fclose(arquivo);
 }
 
@@ -135,20 +136,26 @@ int ler () {
     int resposta;
 
     FILE* arquivo = fopen(nome, "r");
-    fscanf(arquivo, "%d", resposta);
+    fscanf(arquivo, "%d", &resposta);
     fclose(arquivo);
 
     return resposta;
 }
 
-//carrega e toca a musica: (passar para o main)
-void play_Music(char path[]){
-    Mix_Music* musica = NULL;
-    musica = Mix_LoadMUS(path);
-    if (musica == NULL) {
-        printf("Erro ao ler a musica, erro: %s", Mix_GetError());
-    } else {
-        Mix_PlayMusic(musica, -1);
+//carrega e toca a musica: (cesar)
+void play_Music(char path[]) {
+    if (strcmp(path, musicaAnterior) != 0) {
+        // salva o nome
+        strcpy(musicaAnterior, path);
+
+        // toca a musica:
+        Mix_Music* musica = NULL;
+        musica = Mix_LoadMUS(path);
+        if (musica == NULL) {
+            printf("Erro ao ler a musica, erro: %s", Mix_GetError());
+        } else {
+            Mix_PlayMusic(musica, -1);
+        }
     }
 }
 
@@ -178,7 +185,7 @@ SDL_Texture* criarTexture(int tempo, SDL_Color cor, SDL_Rect* rect) {
 }
 
 //atualiza o tempo, destroi a tempoTexture, atualiza o contador e retorna uma texture com o tempo atualizado:
-SDL_Texture* atualizaTempoMostrado(int* tempoRestante, SDL_Texture* tempoTexture, int* contador, SDL_Color *tempoColor, SDL_Rect *tempoRect){
+SDL_Texture* atualizaTempoMostrado(int* tempoRestante, SDL_Texture* tempoTexture, int* contador, SDL_Color *tempoColor, SDL_Rect *tempoRect) {
     (*tempoRestante)--;
     SDL_DestroyTexture(tempoTexture);
     *contador = SDL_GetTicks();
