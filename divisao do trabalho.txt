@@ -14,7 +14,7 @@ adilson:
 Lista de desejos:
 (coisas pra fazer apos ter feito o principal).
 
--colocar a fase da kelly no meio ou final.
+-colocar a fase da kelly no meio ou final. V
 -colisao entre personagens multiplayer
 -quando começar a fase trocar de musica mais sutilmente (esmaecer)
--trocar a musica do slash
+-colocar as musicas certas na fase do slash, deadpool, natal
