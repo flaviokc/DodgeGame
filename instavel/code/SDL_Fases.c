@@ -713,7 +713,7 @@ int faseTematica1(){
 }
 
 //marinheiro
-int faseTematica5(){
+int faseTematica2(){
     //tematica5
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -1085,7 +1085,7 @@ int faseTematica4(){
 }
 
 //militar
-int faseTematica7(){
+int faseTematica5(){
     //tematica7
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -1235,7 +1235,7 @@ int faseTematica7(){
 }
 
 //kelly
-int faseTematica2(){
+int faseTematica6(){
     //tematica2
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
@@ -1375,7 +1375,7 @@ int faseTematica2(){
 }
 
 //deadpool
-int faseTematica6(){
+int faseTematica7(){
     //tematica6
     //declarem td aqui em cima:
     SDL_Event* event = (SDL_Event*) malloc(sizeof(SDL_Event));
