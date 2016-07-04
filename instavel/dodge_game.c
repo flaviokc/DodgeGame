@@ -188,6 +188,7 @@ void menuInicial() {
     SDL_DestroyTexture(bMultiTexture);
     SDL_DestroyTexture(personagem1Texture);
     SDL_DestroyTexture(personagem2Texture);
+    free(event);
 }
 
 void tutorial(float* angulo) {
@@ -271,6 +272,7 @@ void tutorial(float* angulo) {
     SDL_DestroyTexture(tuto1Texture);
     SDL_DestroyTexture(tuto2Texture);
     SDL_DestroyTexture(tuto3Texture);
+    free(event);
 }
 
 int faseNumero (int i) {
@@ -278,17 +280,17 @@ int faseNumero (int i) {
     case 0:
         return faseTematica1();
     case 1:
-        return faseTematica5();
+        return faseTematica2();
     case 2:
         return faseTematica3();
     case 3:
         return faseTematica4();
     case 4:
-        return faseTematica7();
+        return faseTematica5();
     case 5:
-        return faseTematica2();
-    case 6:
         return faseTematica6();
+    case 6:
+        return faseTematica7();
     case 7:
         return faseTematica8();
     default:
@@ -369,6 +371,7 @@ void ganhou(int fase) {
         SDL_Delay(20);
     }
     transicao();
+    free(event);
 }
 
 // return true se precisa ser chamada de novo
@@ -455,5 +458,6 @@ int historia() {
         SDL_Delay(20);
     }
     transicao();
+    free(event);
     return false;
 }
