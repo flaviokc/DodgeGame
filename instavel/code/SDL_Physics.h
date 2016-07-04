@@ -51,5 +51,8 @@
     retorna o numero referente a direcao em que mudou seguindo o padrao acima.
     retorna 0 se não mudou a direcao.*/
     int alteraGravidade(Var* varObj, int tempoRestante, int freqMudGrav, int parametro);
-
+    //atualiza as velocidades da colisao de duas circunferencias:
+    void collMulti(SDL_Rect* rect1, SDL_Rect* rect2, Var* varObj1, Var* varObj2);
+    //delay condicional pra controlar a velocidade de atualização da tela mais precisamente:
+    void delay(int delay, int* contDelay);
 #endif
