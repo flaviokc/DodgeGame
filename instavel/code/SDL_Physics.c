@@ -1,10 +1,138 @@
 #include <stdio.h>
+#include <math.h>
 #include <SDL.h>
 #include "SDL_Physics.h"
 #include "SDL_Media.h"
 #include "bool.h"
 
 //esse arquivo contem as funcoes declaradas em "physics.h"
+
+//delay condicional pra controlar a velocidade de atualização da tela mais precisamente:
+void delay(int delay, int* contDelay){
+    //delayRestante = tempo ideal de delay - tempo que demorou pra executar o while:
+    int delayRestante = delay - (SDL_GetTicks() - *contDelay);
+    printf("%d\n", delayRestante);
+    //se precisar de delay:
+    if(delayRestante > 0){
+        SDL_Delay(delayRestante);
+    }
+
+    //atualiza o contDelay:
+    *contDelay = SDL_GetTicks();
+}
+
+//atualiza as velocidades da colisao de duas circunferencias:
+void collMulti(SDL_Rect* rect1, SDL_Rect* rect2, Var* varObj1, Var* varObj2){
+    int a1, b1, a2, b2;
+    float senoQuadrado1, cossenoQuadrado1, seno1, cosseno1, comum1;
+    float senoQuadrado2, cossenoQuadrado2, seno2, cosseno2, comum2;
+    float dVx2=0, dVy2=0, dVx1=0, dVy1=0;
+
+    //distancia entre os centros:
+    a1 = (rect2->y) - (rect1->y);
+    b1 = (rect2->x) - (rect1->x);
+
+    //distancia entre os centros usando outra convencao:
+    a2 = a1 * (-1);
+    b2 = b1 * (-1);
+
+    //seno do angulo entre a velocidade do objeto 1 e a linha imaginaria que liga os centros dos dois objetos entre si:
+    seno1 = (float)(a1*varObj1->vX+varObj1->vY*b1)/(sqrt((float)((a1*a1+b1*b1)*(varObj1->vY*varObj1->vY+varObj1->vX*varObj1->vX))));
+    //quadrado do seno1:
+    senoQuadrado1 = seno1*seno1;
+    //quadrado do cosseno1:
+    cossenoQuadrado1 = 1 - senoQuadrado1;
+
+    //seno do angulo entre a velocidade do objeto 2 e a linha imaginaria que liga os centros dos dois objetos entre si:
+    seno2 = (float)(a2*varObj2->vX+varObj2->vY*b2)/(sqrt((float)((a2*a2+b2*b2)*(varObj2->vY*varObj2->vY+varObj2->vX*varObj2->vX))));
+    //quadrado do seno2:
+    senoQuadrado2 = seno2*seno2;
+    //quadrado do cosseno2:
+    cossenoQuadrado2 = 1 - senoQuadrado2;
+
+    if((senoQuadrado1 == 0)||!(senoQuadrado1 <= 1)&&!(senoQuadrado1 >= -1)){
+        //caso o angulo seja 0 ou caia fora do dominio:
+        dVx2 = varObj1->vX;
+        dVy2 = varObj1->vY;
+    } else{
+        //cosseno1:
+        cosseno1 = sqrt(cossenoQuadrado1);
+
+        //uma parcela em comum a a expressao do dVx2 e do dVy2:
+        comum1 = varObj1->vX * seno1 + varObj1->vY * cosseno1;
+
+        //quanto o vX do obj2 vai variar:
+        dVx2 = comum1 * seno1;
+        //quanto o vY do obj2 vai variar:
+        dVy2 = comum1 * cosseno1;
+
+        //para tornar mais natural a colisao de angulo proximos de 0 e pi/2:
+        if((dVx2 < 1)&&(dVx2 > -1)){
+            if(dVx2 > 0) dVx2 = 1;
+            else{
+                if(dVx2 != 0){
+                    dVx2 = -1;
+                }
+            }
+        }
+        if((dVy2 < 1)&&(dVy2 > -1)){
+            if(dVy2 > 0) dVy2 = 1;
+            else{
+                if(dVy2 != 0){
+                    dVy2 = -1;
+                }
+            }
+        }
+        //---------------------------
+    }
+
+    if((senoQuadrado2 == 0)||!(senoQuadrado2 <= 1)&&!(senoQuadrado2 >= -1)){
+        //caso o angulo seja 0 ou caia fora do dominio:
+        dVx1 = varObj2->vX;
+        dVy1 = varObj2->vY;
+    } else{
+        //cosseno2:
+        cosseno2 = sqrt(cossenoQuadrado2);
+
+        //uma parcela em comum a a expressao do dVx1 e do dVy1:
+        comum2 = varObj2->vX * seno2 + varObj2->vY * cosseno2;
+
+        //quanto o vX do obj1 vai variar:
+        dVx1 = comum2 * seno2;
+        //quanto o vY do obj1 vai variar:
+        dVy1 = comum2 * cosseno2;
+
+        //para tornar mais natural a colisao de angulo proximos de 0 e pi/2:
+        if((dVx1 < 1)&&(dVx1 > -1)){
+            if(dVx1 > 0) dVx1 = 1;
+            else{
+                if(dVx1 != 0){
+                    dVx1 = -1;
+                }
+            }
+        }
+        if((dVy1 < 1)&&(dVy1 > -1)){
+            if(dVy1 > 0) dVy1 = 1;
+            else{
+                if(dVy1 != 0){
+                    dVy1 = -1;
+                }
+            }
+        }
+        //---------------------------
+    }
+
+    //calculando as velocidades resultantes de acordo com os deltas:
+    varObj1->vX -= dVx2;
+    varObj1->vY -= dVy2;
+    varObj2->vX += dVx2;
+    varObj2->vY += dVy2;
+
+    varObj1->vX += dVx1;
+    varObj1->vY += dVy1;
+    varObj2->vX -= dVx1;
+    varObj2->vY -= dVy1;
+}
 
 //detecta colisão entre retangulo e parede, e inverte valor da velocidade: (flavio)
 void collRectWall(SDL_Rect* rect, Var* varObj){
@@ -125,8 +253,8 @@ void ctrlExtra(SDL_Event* event, Ctrl* ctrlObj){
 
 //verifica se duas circunferências se intersectam: (flavio)
 bool coll2Circles(SDL_Rect* rect1, SDL_Rect* rect2) {
-    int dX = (rect2->x + (rect2->w)/2 - (rect1->x + (rect1->w)/2));
-    int dY = (rect2->y + (rect2->h)/2 - (rect1->y + (rect1->h)/2));
+    int dX = rect2->x + (rect2->w)/2 - (rect1->x + (rect1->w)/2);
+    int dY = rect2->y + (rect2->h)/2 - (rect1->y + (rect1->h)/2);
     int somaRaios = (rect1->w + rect2->w)/2;
     if(dX*dX + dY*dY > somaRaios*somaRaios){
         return false;

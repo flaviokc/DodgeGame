@@ -25,5 +25,7 @@
     int faseTematica8();
     // multiplayer:
     int faseMulti();
+    int testarColisaoMulti();
+    int faseMultiColl();
 
 #endif
